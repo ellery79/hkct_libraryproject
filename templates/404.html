@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <h1 class="max-auto">404: House item Not Found</h1>
+</div>
+<div class="container">
+    <img src="/static/img/error404.jpg" alt="404 image">
+    <p>Debug: Image should appear below this line</p>
+    <img src="{% static 'img/about.jpg' %}" alt="404 image" />
+    <p>Debug: Image should appear above this line</p>
+    <p>Image path: {% static 'img/error404.jpg' %}</p>
+</div>
+{% endblock %}
