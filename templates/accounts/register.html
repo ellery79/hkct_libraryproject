@@ -1,5 +1,5 @@
 <h1> register.html </h1>
-
+{% comment "below is testing code" %}
 <h1>Test 1: login logout </h1>
 {% if user.is_authenticated %}
 <h3>user name is {{user.username}} </h3>
@@ -54,3 +54,5 @@
 <h1> Click link to add a user</h1>
 
 <a href="{% url 'login' %}">click here to add a user</a>
+
+{% endcomment %}
