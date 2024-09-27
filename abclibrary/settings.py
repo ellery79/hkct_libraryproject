@@ -77,8 +77,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'abclibrary.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -86,9 +84,9 @@ WSGI_APPLICATION = 'abclibrary.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'librarydb1',
-        'USER': 'dbadmin',
-        'PASSWORD': '1234',
+        'NAME': 'libdb1',
+        'USER': 'postgres',
+        'PASSWORD': '123!',
         'HOST': 'localhost',
     }
 }
@@ -157,6 +155,3 @@ MESSAGE_TAGS = {
 
 # Tell Django to use accounts/CustomUser to do user authentication
 AUTH_USER_MODEL = 'accounts.CustomUser'
-
-# To facilitate development, do not do password validation, delete this line in production.
-AUTH_PASSWORD_VALIDATORS = []
