@@ -1,14 +1,26 @@
 from django.db import models
+from accounts.models import CustomUser
+
 
 # Create your models here.
 
-class borrows(models.Model):
-    reserve_date = models.DateTimeField()
+reserve_choices = {
+    'active': 'active',
+    'fulfilled': 'fulfilled',
+    'expired': 'expired',
+} 
 
-    reserve_status = models.CharField (choices=reserve_choices.items())
+class Reserve(models.Model):
+    reserve_date = models.DateField()
+    reserve_status = models.CharField(choices=reserve_choices.items())
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.DO_NOTHING, blank=True, null=True)
+
+
+
 
 
 def __str__(self):
-        return self.title   
-    
-
+    return self.title

@@ -1,5 +1,5 @@
 reserve_choices = {
-    'active': 'actives',
+    'active': 'active',
     'fulfilled': 'fulfilled',
     'expired': 'expired',
 }
