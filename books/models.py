@@ -1,7 +1,6 @@
 from django.db import models
 from datetime import datetime
 from libraries.models import Library
-#from books.choices import status_choices
 
 status_choices = {
     'Borrowed':'Borrowed',

@@ -18,4 +18,4 @@ class Library(models.Model):
     closing_hour = models.TimeField()
 
 def __str__(self):
-    return self.name
+    return self.district
