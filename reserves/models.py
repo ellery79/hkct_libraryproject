@@ -9,7 +9,8 @@ reserve_choices = {
     'active': 'active',
     'fulfilled': 'fulfilled',
     'expired': 'expired',
-} 
+}
+
 
 class Reserve(models.Model):
     reserve_date = models.DateField()
@@ -19,9 +20,5 @@ class Reserve(models.Model):
     book = models.ForeignKey(
         Book,  on_delete=models.DO_NOTHING, blank=True, null=True)
 
-
-
-
-
-def __str__(self):
-    return self.title
+    def __str__(self):
+        return self.title

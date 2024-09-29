@@ -17,5 +17,5 @@ class Library(models.Model):
     opening_hour = models.TimeField()
     closing_hour = models.TimeField()
 
-def __str__(self):
-    return self.district
+    def __str__(self):
+        return self.district

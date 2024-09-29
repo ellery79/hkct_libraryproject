@@ -25,5 +25,5 @@ class Book(models.Model):
     description = models.TextField(max_length=200, blank=True, null=True)
     photo_main = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, null=True)
 
-def __str__(self):
-    return self.title
+    def __str__(self):
+        return self.title

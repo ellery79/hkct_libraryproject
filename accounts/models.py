@@ -15,7 +15,6 @@ class Rule(models.Model):
     def __str__(self):
         return self.rule_name
 
-
 class CustomUser(AbstractUser):
     rule = models.ForeignKey(
         Rule, on_delete=models.DO_NOTHING, blank=True, null=True)
