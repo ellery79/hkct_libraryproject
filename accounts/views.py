@@ -45,7 +45,8 @@ def register(request):
         password2 = request.POST['password2']
         card_id = request.POST['card_id']
         user_phone = request.POST['user_phone']
-        rule = Rule.objects.get.filter
+        default_rule = Rule.objects.get(rule_name="default")
+
 
         if password == password2:
             if CustomUser.objects.filter(username=username).exists():
@@ -62,14 +63,14 @@ def register(request):
                                                           first_name=first_name,
                                                           last_name=last_name,
                                                           card_id=card_id,
-                                                          user_phone=user_phone)
+                                                          user_phone=user_phone,
+                                                          rule=default_rule)
                     user.save()
                     messages.success(
                         request, "You are now registered and can log in")
                     return redirect('login')
         else:
             messages.error(request, 'Passwords do not match')
-            print("password don't match")
             return redirect('register')
     else:
         return render(request, 'accounts/register.html')
