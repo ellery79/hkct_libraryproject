@@ -1,6 +1,7 @@
 from django.db import models
 
 from accounts.models import CustomUser
+from books.models import Book
 
 
 # Create your models here.
@@ -13,6 +14,8 @@ class Borrow(models.Model):
     fine_paid = models.BooleanField()
     user = models.ForeignKey(
         CustomUser, on_delete=models.DO_NOTHING, blank=True, null=True)
+    book = models.ForeignKey(
+        Book,  on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
         return self.name
