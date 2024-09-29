@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'abclibrary.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'abclibrary',
-        'USER': 'postgres',
-        'PASSWORD': '403791',
+        'NAME': 'librarydb1',
+        'USER': 'dbadmin',
+        'PASSWORD': '1234',
         'HOST': 'localhost',
     }
 }
