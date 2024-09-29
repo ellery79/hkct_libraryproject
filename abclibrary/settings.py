@@ -77,8 +77,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'abclibrary.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -157,6 +155,3 @@ MESSAGE_TAGS = {
 
 # Tell Django to use accounts/CustomUser to do user authentication
 AUTH_USER_MODEL = 'accounts.CustomUser'
-
-# To facilitate development, do not do password validation, delete this line in production.
-AUTH_PASSWORD_VALIDATORS = []
