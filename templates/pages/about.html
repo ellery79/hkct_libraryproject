@@ -1,1 +1,14 @@
-<h1> about.html </h1>
+{% extends 'base.html'%} 
+{% load humanize %}
+
+<!--add title to the tab-->
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+{% load static %}
+
+{% include 'partials/_alert.html' %}
+
+<h1> this is about.html </h1>
+
+{% endblock %}

@@ -1,53 +1,82 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages, auth
 from .models import Rule, CustomUser
 
 # Create your views here.
 
 
 def login(request):
-    # new_user = CustomUser(username="poon3", card_id="7654321")
-    # new_user.set_password("1234")
-    # new_user.save()
 
-    # new_rule = Rule(rule_name="rule6")
-    # new_rule.fine_per_day = 1.5
-    # new_rule.borrow_limit = 20
-    # new_rule.reserve_limit = 20
-    # new_rule.borrow_period =200
-    # new_rule.save()
-    return render(request, 'accounts/login.html')
+    if request.user.is_authenticated:
+        messages.info(request, 'You are already logged in!')
+        return render(request, 'pages/index.html')
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+            messages.success(request, "You are now logged in")
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'invalid credentials')
+            return redirect('login')
+    else:
+        return render(request, 'accounts/login.html')
 
 
 def logout(request):
-    return render(request, 'pages/index.html')
+    if request.method == 'POST':
+        auth.logout(request)
+        messages.success(request, 'You are now logged out')
+    return redirect('index')
+
+
+def register(request):
+    if request.user.is_authenticated:
+        messages.info(request, 'You are already logged in! Please log out before register.')
+        return render(request, 'pages/index.html')
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        password2 = request.POST['password2']
+        card_id = request.POST['card_id']
+        user_phone = request.POST['user_phone']
+        rule = Rule.objects.get.filter
+
+        if password == password2:
+            if CustomUser.objects.filter(username=username).exists():
+                messages.error(request, 'Username already exists')
+                return redirect('register')
+            else:
+                if CustomUser.objects.filter(email=email).exists():
+                    messages.error(request, 'Email already exists')
+                    return redirect('register')
+                else:
+                    user = CustomUser.objects.create_user(username=username,
+                                                          password=password,
+                                                          email=email,
+                                                          first_name=first_name,
+                                                          last_name=last_name,
+                                                          card_id=card_id,
+                                                          user_phone=user_phone)
+                    user.save()
+                    messages.success(
+                        request, "You are now registered and can log in")
+                    return redirect('login')
+        else:
+            messages.error(request, 'Passwords do not match')
+            print("password don't match")
+            return redirect('register')
+    else:
+        return render(request, 'accounts/register.html')
 
 
 def dashboard(request):
     return render(request, 'accounts/dashboard.html')
-
-
-def register(request):
-    # allrules_queryset = Rule.objects.all()
-    # allusers_queryset = CustomUser.objects.all()
-
-    # filterrule_queryset = Rule.objects.filter(borrow_limit=14)
-    # selected_rule = Rule.objects.get(rule_name="default")
-    # filteruser_queryset = CustomUser.objects.filter(rule=selected_rule)
-    # length = len(filteruser_queryset)
-    # print("number of user using this rule is " + str(length))
-
-    # change borrow_limit of rule2 = 18
-    # select_rule5 = Rule.objects.get(rule_name="rule5", fine_per_day=1.5)
-    # select_rule5.rule_name = "rule 7"
-    # select_rule5.save()
-
-    # context = {'myvariable': 3,
-    #         'allrules_queryset': allrules_queryset,
-    #          'allusers_queryset': allusers_queryset,
-    #          'filterrule_queryset': filterrule_queryset,
-    #          'filteruser_queryset': filteruser_queryset,
-    #           }
-    return render(request, 'accounts/register.html')
 
 
 def forgotpass(request):

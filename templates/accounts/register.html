@@ -1,58 +1,103 @@
-<h1> register.html </h1>
-{% comment "below is testing code" %}
-<h1>Test 1: login logout </h1>
-{% if user.is_authenticated %}
-<h3>user name is {{user.username}} </h3>
-<h3>user password is {{user.password}} </h3>
-<h3>user email is {{user.email}} </h3>
-<h3>library id is {{user.card_id}} </h3>
-<h3>phone is {{user.user_phone}} </h3>
-<h3>his Reserve period is {{user.rule.reserve_period}}</h3>
+{% extends 'base.html'%} {% load humanize %}
 
-{% else %}
-<h3> You have logged out </h3>
-{% endif %}
+<!--add title to the tab-->
+{% block title %}Welcome{% endblock %} {% block content %} {% load static %} 
 
-<h1>Test 2: Display my variable </h1>
-<h3>My variable is {{myvariable}}</h3>
+<section id="register" class="bg-light py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h4><i class="fas fa-user-plus"></i> Register</h4>
+          </div>
+          <div class="card-body">
 
-<h1>Test 3: test for loop</h1>
+            {% include 'partials/_alert.html' %}
+            <form action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+              <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input
+                  type="text"
+                  name="first_name"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input
+                  type="text"
+                  name="last_name"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="password2">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="password">Confirm Password</label>
+                <input
+                  type="password"
+                  name="password2"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="card_id">Library Card ID</label>
+                <input
+                  type="text"
+                  name="card_id"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="user_phone">Phone number</label>
+                <input
+                  type="text"
+                  name="user_phone"
+                  class="form-control"
+                />
+              </div>
+              <input
+                type="submit"
+                value="Register"
+                class="btn btn-secondary btn-block"
+              />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<h2> Loop users </h2>
-{% for user in allusers_queryset%}
-<h3>current loop is {{forloop.counter}}</h3>
-<h3>user name is {{user.username}} </h3>
-<h3>user password is {{user.password}} </h3>
-<h3>user email is {{user.email}} </h3>
-<h3>library id is {{user.card_id}} </h3>
-<h3>his Reserve limit is {{user.rule.reserve_limit}}</h3>
-{% endfor %}
-
-<h2> loop rule </h2>
-
-{% for rule in allrules_queryset %}
-<h3>current loop is {{forloop.counter}}</h3>
-<h3> the rule name is {{rule.rule_name}}</h3>
-{% endfor %}
-
-<h1> Test 3.5: Filter a rule that has borrow_limit=14</h1>
-{% for rule in filterrule_queryset %}
-<h3>current loop is {{forloop.counter}}</h3>
-<h3>rule name is {{rule.rule_name}}</h3>
-{% endfor %}
-
-<h1>Test 4: find out the number of user apply a rule </h1>
-
-{% for user in filteruser_queryset %}
-<h3>current loop is {{forloop.counter}}</h3>
-<h3>user {{forloop.counter}} is {{user.username}}</h3>
-
-{% endfor %}
-
-<h3>The number of users having this rule is {{filteruser_queryset | length}}</h3>
-
-<h1> Click link to add a user</h1>
-
-<a href="{% url 'login' %}">click here to add a user</a>
-
-{% endcomment %}
+{% endblock %} 
