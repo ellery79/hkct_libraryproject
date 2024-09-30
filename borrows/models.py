@@ -9,9 +9,9 @@ from books.models import Book
 class Borrow(models.Model):
     borrow_date = models.DateField()
     due_date = models.DateField()
-    return_date = models.DateField()
-    book_fine = models.DecimalField(decimal_places=2, max_digits=3)
-    fine_paid = models.BooleanField()
+    return_date = models.DateField(blank=True, null=True)
+    book_fine = models.DecimalField(decimal_places=2, max_digits=3, blank=True, null=True)
+    fine_paid = models.BooleanField(blank=True, null=True)
     user = models.ForeignKey(
         CustomUser, on_delete=models.DO_NOTHING, blank=True, null=True)
     book = models.ForeignKey(
