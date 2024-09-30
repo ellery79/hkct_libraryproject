@@ -34,7 +34,8 @@ def logout(request):
 
 def register(request):
     if request.user.is_authenticated:
-        messages.info(request, 'You are already logged in! Please log out before register.')
+        messages.info(
+            request, 'You are already logged in! Please log out before register.')
         return render(request, 'pages/index.html')
     if request.method == 'POST':
         first_name = request.POST['first_name']
@@ -46,7 +47,6 @@ def register(request):
         card_id = request.POST['card_id']
         user_phone = request.POST['user_phone']
         default_rule = Rule.objects.get(rule_name="default")
-
 
         if password == password2:
             if CustomUser.objects.filter(username=username).exists():
@@ -85,4 +85,11 @@ def forgotpass(request):
 
 
 def changepass(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        selected_user = CustomUser.objects.filter(username=username)
+        selected_user.set_password(password)
+        selected_user.save()
+        return render(request, 'accounts/changepass.html')
     return render(request, 'accounts/changepass.html')

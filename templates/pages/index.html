@@ -11,4 +11,14 @@
 
 <h1> this is index.html </h1>
 
+<h2>randomly select 3 latest books</h2>
+{% for book in random3_books_list %}
+<h3>the counter is {{forloop.counter}}</h3>
+<h3>the book title is {{book.title}}</h3>
+<h3>the book author is {{book.author}}</h3>
+<br/>
+
+{% endfor %}
+
+
 {% endblock %}

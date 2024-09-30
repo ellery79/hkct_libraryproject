@@ -10,5 +10,11 @@
 {% include 'partials/_alert.html' %}
 
 <h1> this is about.html </h1>
+{% for library in library_list %}
+<h3>the counter is {{forloop.counter}}</h3>
+<h3>the library district is {{library.district}}</h3>
+<h3>the library address is {{library.address}}</h3>
+<br/>
 
+{% endfor %}
 {% endblock %}
