@@ -155,3 +155,5 @@ MESSAGE_TAGS = {
 
 # Tell Django to use accounts/CustomUser to do user authentication
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+AUTH_PASSWORD_VALIDATORS = []
