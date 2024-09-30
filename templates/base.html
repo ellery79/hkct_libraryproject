@@ -14,12 +14,12 @@
 
     <link rel="stylesheet" href={% static "css/lightbox.min.css" %} />
 
-    <title>BC Real Estate {% block title %} {% endblock %}</title>
+    <title>HkknT Readings {% block title %} {% endblock %}</title>
   </head>
 
   <body>
     {% include 'partials/_topbar.html' %}
-    {% include 'partials/_navbar.html' %}
+    {% comment %} {% include 'partials/_navbar.html' %} {% endcomment %}
     {% block content %} {% endblock %}
     {% include 'partials/_footer.html' %}
     <script src={% static "js/jquery-3.3.1.min.js" %}></script>

@@ -1,1 +1,182 @@
-<h1> this is index.html </h1>
+{% extends "base.html" %}
+{% block title %} YOU CAN DO IT! {% endblock %}
+{% block content %} 
+
+<!-- Showcase -->
+<section id="showcase">
+    <div class="container text-center">
+      <div class="home-search p-5">
+        <div class="overlay p-5">
+          <h1 class="display-4 mb-4"></h1>
+          <p class="lead">
+            Reading is fun. We can read whereever you are. Do you like reading? Let's start reading today. Here is one of the places where you could find your favourite books! Have fun!
+          </p>
+          <div class="search">
+            {% comment %} goto search.html or search page {% endcomment %}
+            <form action="{% url 'search' %}">
+              <!-- Form Row 1 -->
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Keywords</label>
+                  <input
+                    type="text"
+                    name="keywords"
+                    class="form-control"
+                    placeholder="Keyword (title, author, 彩色插圖, 公分, pages, cm, etc)"
+                  />
+                </div>
+                <div class="col-md-4 mb-3">
+                  {% comment %} the following word "title" is originally "street" {% endcomment %}
+                  <label class="sr-only">Title</label>
+                  <input
+                    type="text"
+                  {% comment %} the following word "title" is originally "street" {% endcomment %}
+                    name="title"
+                    class="form-control"
+                  {% comment %} the following word "title" is originally "street" {% endcomment %}
+                    placeholder="Title"
+                  />
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Library</label>
+                  <select name="District" class="form-control">
+                    <option selected="true" disabled="disabled">
+                      Libraries (All)
+                    </option>
+                    {% comment %} fix District choices {% endcomment %}
+                    {% for key, value in district_choices.items %}
+                    <option value="{{key}}">{{value}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <!-- Form Row 2 -->
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label class="sr-only">Authors</label>
+                    <input
+                      type="text"
+                      name="author"
+                      class="form-control"
+                      placeholder="Authors"
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="sr-only">Publishers</label>
+                    <input
+                      type="text"
+                      name="publisher"
+                      class="form-control"
+                      placeholder="Publishers"
+                    />
+                  </div>
+              </div>
+              <button class="btn btn-secondary btn-block mt-4" type="submit">
+                Submit form
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+  
+  <!-- books -->
+  <section id="books" class="py-5">
+    <div class="container">
+      <h3 class="text-center mb-3">Latest Released Books</h3>
+      <div class="row">
+        {% comment %} fix lastest books at bottom of home page {% endcomment %}
+        <!-- Listing 1 -->
+        {% if books %}
+        {% for book in books %}
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card listing-preview">
+            <img
+              class="card-img-top"
+              src={{book.photo_main.url}}
+              alt=""
+            />
+            <div class="card-img-overlay">
+              <h2>
+                <span class="badge badge-secondary text-white"
+                {% comment %} run variable title from book {% endcomment %}
+                  >${{book.title}}</span
+                >
+              </h2>
+            </div>
+            <div class="card-body">
+              <div class="listing-heading text-center">
+                {% comment %} run variable author from book {% endcomment %}
+                <h4 class="text-primary">{{book.author}}</h4>
+                <p>
+                  {% comment %} run district from book {% endcomment %}
+                  <i class="fas fa-map-marker text-secondary"></i>{{book.district}}
+                </p>
+              </div>
+              <hr />
+              <div class="row text-secondary pb-2">
+                <div class="col-6">
+                  <i class="fas fa-clock"></i>{{book.publisher}}
+                </div>
+              </div>
+              <div class="row text-secondary pb-2">
+                <div class="col-6">
+                  <i class="fas fa-clock"></i>{{book.call_number}}
+                </div>
+              </div>
+              <hr />
+              <a href={% url 'book' book.id %} class="btn btn-primary btn-block"
+                >More Info</a
+              >
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-md-12">
+          <p>No Latest Released Books Available</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="py-5 bg-secondary text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-4">
+          <i class="fas fa-comment fa-4x mr-4"></i>
+          <hr />
+          <h3>Consulting Services</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
+            debitis nam! Repudiandae, provident iste consequatur hic
+            dignissimos ratione ea quae.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-home fa-4x mr-4"></i>
+          <hr />
+          <h3>Propery Management</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
+            debitis nam! Repudiandae, provident iste consequatur hic
+            dignissimos ratione ea quae.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-suitcase fa-4x mr-4"></i>
+          <hr />
+          <h3>Renting & Selling</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
+            debitis nam! Repudiandae, provident iste consequatur hic
+            dignissimos ratione ea quae.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
