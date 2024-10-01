@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from .models import Rule, CustomUser
+from borrows.models import Borrow
+from reserves.models import Reserve
 
 # Create your views here.
 
@@ -74,6 +76,8 @@ def register(request):
             return redirect('register')
     else:
         return render(request, 'accounts/register.html')
+
+
 
 
 def dashboard(request):

@@ -7,8 +7,162 @@
 {% block content %}
 {% load static %}
 
-{% include 'partials/_alert.html' %}
 
-<h1> this is dashboard.html </h1>
+
+<section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+
+          <h1 class="display-4">{{user.first_name}} Dashboard</h1>
+
+          <p class="lead">Manage your ABC Library account</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'index' %}"> <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+  {% include 'partials/_alert.html' %}
+  
+  <section id="dashboard" class="py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Welcome {{user.first_name}}</h2>
+          <div class="row">
+            <div class="col text-left">
+              <a href="{% url 'index' %}" class="btn btn-primary">New Book Search</a>
+            </div>
+            <div class="col text-right">
+              <a href="{% url 'changepass' %}" class="btn btn-primary">Change Password</a>
+            </div>
+          </div>
+          <br />
+          <h4>Borrowed and not returned items</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Borrow Date</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Location</th>
+                <th scope="col">Overdue</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-warning">
+                <td>22</td>
+                <td>Book title 1</td>
+                <td>15 Aug 2024</td>
+                <td>15 Sep 2024</td>
+                <td>Yau Ma Tei</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td>22</td>
+                <td>Book title 1</td>
+                <td>15 Aug 2024</td>
+                <td>15 Sep 2024</td>
+                <td>Yau Ma Tei</td>
+                <td>No</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4>Overdue charges</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Property</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>22</td>
+                <td>45 Prince Street</td>
+                <td>
+                  <a class="btn btn-light" href="#">View Listing</a>
+                </td>
+              </tr>
+              <tr>
+                <td>43</td>
+                <td>22 Westbrook rd</td>
+                <td>
+                  <a class="btn btn-light" href="#">View Listing</a>
+                </td>
+              </tr>
+              <tr>
+                <td>31</td>
+                <td>12 Samson Ave</td>
+                <td>
+                  <a class="btn btn-light" href="#">View Listing</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <a href="https://example.com/pay" class="btn btn-success mb-2">
+              <i class="fas fa-credit-card"></i> Pay
+            </a>
+            <span>Click here to pay your overdue charges</span>
+          </p>
+          <p><strong>Supported payment method:</strong> Credit card.</p>
+          
+          
+
+          <h4>Reserved items</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Property</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>22</td>
+                <td>45 Prince Street</td>
+                <td>
+                  <a class="btn btn-light" href="#">View Listing</a>
+                </td>
+              </tr>
+              <tr>
+                <td>43</td>
+                <td>22 Westbrook rd</td>
+                <td>
+                  <a class="btn btn-light" href="#">View Listing</a>
+                </td>
+              </tr>
+              <tr>
+                <td>31</td>
+                <td>12 Samson Ave</td>
+                <td>
+                  <a class="btn btn-light" href="#">View Listing</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p>Please take your reserve item within 3 days!</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
 {% endblock %}
