@@ -14,11 +14,11 @@ reserve_choices = {
 
 class Reserve(models.Model):
     reserve_date = models.DateField()
-    reserve_status = models.CharField(choices=reserve_choices.items())
+    reserve_status = models.CharField(choices=reserve_choices.items(), default="active")
     user = models.ForeignKey(
         CustomUser, on_delete=models.DO_NOTHING, blank=True, null=True)
     book = models.ForeignKey(
         Book,  on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        return self.book.title

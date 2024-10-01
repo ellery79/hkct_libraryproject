@@ -4,7 +4,7 @@ from django.contrib import admin
 from books.models import Book
 
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'author', 'copy', 'publication_year', 'publisher', 'call_number', 'edition', 'isbn', 'barcode', 'book_status', 'is_latest', 'description', 'library')
+    list_display = ('id', 'title', 'author', 'copy', 'publication_year', 'publisher', 'call_number', 'edition', 'isbn', 'barcode', 'book_status', 'is_latest', 'library')
     list_display_links = ('id', 'title')
     list_filter = ('library', 'book_status',)
     list_editable = ('is_latest',)
