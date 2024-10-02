@@ -1,14 +1,7 @@
 from django.db import models
-from datetime import datetime
-from libraries.models import Library
+from libraries.models import Library, district_choices
+from books.choices import status_choices
 
-status_choices = {
-    'Borrowed':'Borrowed',
-    'Reserved': 'Reserved',
-    'Available': 'Available',
-    'Lost': 'Lost',
-}
-# Create your models here.
 class Book(models.Model):
     library = models.ForeignKey(Library, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=200)

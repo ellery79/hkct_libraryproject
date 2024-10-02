@@ -1,6 +1,4 @@
 from django.contrib import admin
-
-# Register your models here.
 from libraries.models import Library
 
 class LibraryAdmin(admin.ModelAdmin):
@@ -9,4 +7,5 @@ class LibraryAdmin(admin.ModelAdmin):
     search_fields = ('district',)
     list_per_page = 10
 
+# Register the Library model
 admin.site.register(Library, LibraryAdmin)

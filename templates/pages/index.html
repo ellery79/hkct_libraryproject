@@ -7,7 +7,7 @@
     <div class="container text-center">
       <div class="home-search p-5">
         <div class="overlay p-5">
-          <h1 class="display-4 mb-4"></h1>
+          <h1 class="display-4 mb-4">Hkknt Readings</h1>
           <p class="lead">
             Reading is fun. We can read whereever you are. Do you like reading? Let's start reading today. Here is one of the places where you could find your favourite books! Have fun!
           </p>
@@ -22,24 +22,21 @@
                     type="text"
                     name="keywords"
                     class="form-control"
-                    placeholder="Keyword (title, author, 彩色插圖, 公分, pages, cm, etc)"
+                    placeholder="Keyword (Title, Author, 彩色插圖, 公分, Pages, cm, etc)"
                   />
                 </div>
                 <div class="col-md-4 mb-3">
-                  {% comment %} the following word "title" is originally "street" {% endcomment %}
                   <label class="sr-only">Title</label>
                   <input
                     type="text"
-                  {% comment %} the following word "title" is originally "street" {% endcomment %}
                     name="title"
                     class="form-control"
-                  {% comment %} the following word "title" is originally "street" {% endcomment %}
                     placeholder="Title"
                   />
                 </div>
 
                 <div class="col-md-4 mb-3">
-                  <label class="sr-only">Library</label>
+                  <label class="sr-only">District</label>
                   <select name="District" class="form-control">
                     <option selected="true" disabled="disabled">
                       Libraries (All)
@@ -81,102 +78,100 @@
       </div>
     </div>
 </section>
-  
-  <!-- books -->
-  <section id="books" class="py-5">
-    <div class="container">
-      <h3 class="text-center mb-3">Latest Released Books</h3>
-      <div class="row">
-        {% comment %} fix lastest books at bottom of home page {% endcomment %}
-        <!-- Listing 1 -->
-        {% if books %}
-        {% for book in books %}
-        <div class="col-md-6 col-lg-4 mb-4">
-          <div class="card listing-preview">
-            <img
-              class="card-img-top"
-              src={{book.photo_main.url}}
-              alt=""
-            />
-            <div class="card-img-overlay">
-              <h2>
-                <span class="badge badge-secondary text-white"
-                {% comment %} run variable title from book {% endcomment %}
-                  >${{book.title}}</span
-                >
-              </h2>
+
+<!-- books -->
+<section id="books" class="py-5">
+  <div class="container">
+    <h3 class="text-center mb-3">Latest Released Books</h3>
+    <div class="row">
+      {% comment %} fix lastest books at bottom of home page {% endcomment %}
+      <!-- Listing 1 -->
+      {% if books %}
+      {% for book in books %}
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card listing-preview">
+          <img
+            class="card-img-top"
+            src={{book.photo_main.url}}
+            alt=""
+          />
+          <div class="card-img-overlay">
+            <h2>
+              <span class="badge badge-secondary text-white">Title: {{book.title}}</span>
+            </h2>
+          </div>
+          <div class="card-body">
+            <div class="listing-heading text-center">
+              {% comment %} run variable author from book {% endcomment %}
+              <h4 class="text-primary"> Author: {{book.author}}</h4>
+              <p>
+                {% comment %} run district from book {% endcomment %}
+                <i class="fas fa-map-marker text-secondary"> District:  </i>{{book.library}}
+              </p>
             </div>
-            <div class="card-body">
-              <div class="listing-heading text-center">
-                {% comment %} run variable author from book {% endcomment %}
-                <h4 class="text-primary">{{book.author}}</h4>
-                <p>
-                  {% comment %} run district from book {% endcomment %}
-                  <i class="fas fa-map-marker text-secondary"></i>{{book.district}}
-                </p>
+            <hr />
+            <div class="row text-secondary pb-2">
+              <div class="col-12">
+                <i class="fas fa-clock"></i> Publisher: {{book.publisher}}
               </div>
-              <hr />
-              <div class="row text-secondary pb-2">
-                <div class="col-6">
-                  <i class="fas fa-clock"></i>{{book.publisher}}
-                </div>
-              </div>
-              <div class="row text-secondary pb-2">
-                <div class="col-6">
-                  <i class="fas fa-clock"></i>{{book.call_number}}
-                </div>
-              </div>
-              <hr />
-              <a href={% url 'book' book.id %} class="btn btn-primary btn-block"
-                >More Info</a
-              >
             </div>
+            <div class="row text-secondary pb-2">
+              <div class="col-12">
+                <i class="fas fa-clock"></i> Call Number: {{book.call_number}}
+              </div>
+            </div>
+            <hr />
+            <a href={% url 'book' book.id %} class="btn btn-primary btn-block"
+              >More Info</a
+            >
           </div>
         </div>
-        {% endfor %}
-        {% else %}
-        <div class="col-md-12">
-          <p>No Latest Released Books Available</p>
-        </div>
-        {% endif %}
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="col-md-12">
+        <p>No Latest Released Books Available</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+  
+<!-- services -->
+<section id="services" class="py-5 bg-secondary text-white">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-4">
+        <i class="fas fa-comment fa-4x mr-4"></i>
+        <hr />
+        <h3>Depository Library for International Organizations</h3>
+    <p>
+      The Hong Kong Central Library is designated as a depository library 
+      for nine international organizations, including the Asian Development Bank, 
+      the European Union, the International Labour Organization, and UNESCO.
+    </p>
+  </div>
+  <div class="col-md-4">
+    <i class="fas fa-home fa-4x mr-4"></i>
+    <hr />
+    <h3>Multimedia Information System</h3>
+    <p>
+      The library is equipped with a multimedia 
+      information system that offers digital library functions, 
+      allowing readers to access materials through computer terminals.
+    </p>
+  </div>
+  <div class="col-md-4">
+    <i class="fas fa-suitcase fa-4x mr-4"></i>
+    <hr />
+    <h3>Smart Design</h3>
+    <p>
+      ach floor uses a networked floor design for easy connection 
+      to power and other computer systems. All desks provide power outlets, 
+      allowing patrons to use their laptops for wireless internet access.
+        </p>
       </div>
     </div>
-  </section>
-
-  <section id="services" class="py-5 bg-secondary text-white">
-    <div class="container">
-      <div class="row text-center">
-        <div class="col-md-4">
-          <i class="fas fa-comment fa-4x mr-4"></i>
-          <hr />
-          <h3>Consulting Services</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-            debitis nam! Repudiandae, provident iste consequatur hic
-            dignissimos ratione ea quae.
-          </p>
-        </div>
-        <div class="col-md-4">
-          <i class="fas fa-home fa-4x mr-4"></i>
-          <hr />
-          <h3>Propery Management</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-            debitis nam! Repudiandae, provident iste consequatur hic
-            dignissimos ratione ea quae.
-          </p>
-        </div>
-        <div class="col-md-4">
-          <i class="fas fa-suitcase fa-4x mr-4"></i>
-          <hr />
-          <h3>Renting & Selling</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-            debitis nam! Repudiandae, provident iste consequatur hic
-            dignissimos ratione ea quae.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
+</section>
 {% endblock %}

@@ -1,6 +1,4 @@
 from django.contrib import admin
-
-# Register your models here.
 from books.models import Book
 
 class BookAdmin(admin.ModelAdmin):
@@ -11,4 +9,5 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ('title', 'author', 'copy', 'barcode', 'isbn', 'library')
     list_per_page = 25
 
+# Register the Book model
 admin.site.register(Book, BookAdmin)

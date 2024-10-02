@@ -1,21 +1,15 @@
 from django.shortcuts import render
 from books.models import Book
 from libraries.models import Library
-
+from libraries.choices import district_choices
 
 # Create your views here.
 def index(request):
-    random3_books_query_set = Book.objects.filter(is_latest=True).order_by('?')[0:3]
-    context = {'random3_books_list': random3_books_query_set}
-
-# Create your views here.
-#def index(request):
-#    random3_books_query_set = Book.objects.filter(is_latest=True).order_by('?')[0:3]
-#    context = {'random3_books_list': random3_books_query_set}
-def index(request):
-    books = Book.objects.filter(is_latest =True)[:3]
-    context = {'books': books,
-                }
+    books = Book.objects.filter(is_latest =True).order_by('?')[:3]
+    context = {
+        'books': books,
+        'district_choices': district_choices  # Add district_choices to context
+    }
     return render(request, 'pages/index.html', context)
 
 def about(request):
