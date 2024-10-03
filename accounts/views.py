@@ -84,7 +84,7 @@ def forgotpass(request):
     return render(request, 'accounts/forgotpass.html')
 
 
-def changepass(request):
+'''def changepass(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -92,4 +92,20 @@ def changepass(request):
         selected_user.set_password(password)
         selected_user.save()
         return render(request, 'accounts/changepass.html')
-    return render(request, 'accounts/changepass.html')
+    #return render(request, 'accounts/changepass.html')'''
+
+def changepass(request):
+    if request.method == 'POST':
+        new_password = request.POST['password']
+        con_password = request.POST['password2']
+        if new_password == con_password:
+                user = CustomUser.objects.get(id=request.user.id)
+                user.set_password(new_password)
+                user.save()
+                messages.success(request,'You are success change password')
+                return redirect('dashboard')
+        else:
+            messages.error(request,'Passwords do not match')
+            return redirect('changepass')        
+    else:
+        return render(request,'accounts/changepass.html')
