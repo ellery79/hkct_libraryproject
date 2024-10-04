@@ -3,6 +3,10 @@ from django.contrib import messages, auth
 from .models import Rule, CustomUser
 from borrows.models import Borrow
 from reserves.models import Reserve
+from datetime import date, timedelta
+from books.models import Book
+from django.db.models import Q
+from django.db.models import Sum
 
 # Create your views here.
 
@@ -78,10 +82,96 @@ def register(request):
         return render(request, 'accounts/register.html')
 
 
+def update_reserve_status(reserve_period):
+    # Calculate the date 3 days ago from today
+    three_days_ago = date.today() - timedelta(days=reserve_period)
+    # Update all reserves where reserve_date is more than 3 days ago and status is 'active'
+    Reserve.objects.filter(
+        reserve_date__lt=three_days_ago,
+        reserve_status='active',
+    ).update(reserve_status='expired')
+
+
+def update_book_borrow_status():
+    # Filter Borrow objects where return_date is null
+    borrows_with_no_return_date = Borrow.objects.filter(
+        return_date__isnull=True)
+
+    # Filter Borrow objects where return_date is not null
+    borrows_with_return_date = Borrow.objects.filter(return_date__isnull=False)
+
+    # Find Borrow objects that are in borrows_with_return_date but not in borrows_with_no_return_date
+    borrows_with_return_date_only = borrows_with_return_date.exclude(
+        book__in=borrows_with_no_return_date.values('book'))
+    for borrow in borrows_with_no_return_date:
+        selected_book = borrow.book
+        selected_book.book_status = 'Borrowed'
+        selected_book.save()
+    for borrow in borrows_with_return_date_only:
+        selected_book = borrow.book
+        if selected_book.book_status == 'Borrowed':
+            selected_book.book_status = 'Available'
+            selected_book.save()
+
+
+def update_book_reserve_status():
+    non_active_reserves = Reserve.objects.filter(
+        Q(reserve_status='fulfilled') | Q(reserve_status='expired'))
+    for reserve in non_active_reserves:
+        selected_book = reserve.book
+        if selected_book.book_status == 'Reserved':
+            selected_book.book_status = 'Available'
+            selected_book.save()
+    active_reserves = Reserve.objects.filter(reserve_status='active')
+    for reserve in active_reserves:
+        selected_book = reserve.book
+        selected_book.book_status = 'Reserved'
+        selected_book.save()
+
+
+def update_overdue_days():
+    returned_books = Borrow.objects.filter(return_date__isnull=False)
+    for returned_book in returned_books:
+        day_delta = returned_book.return_date - returned_book.due_date
+        returned_book.overdue_days = day_delta.days
+        returned_book.save()
+
+
+def update_book_fine(fine_per_day):
+    Borrow.objects.filter(fine_paid=True).update(book_fine=0)
+    unpaid_borrows = Borrow.objects.filter(
+        Q(fine_paid=False) & Q(return_date__isnull=False)
+    )
+    for unpaid_borrow in unpaid_borrows:
+        unpaid_borrow.book_fine = unpaid_borrow.overdue_days * fine_per_day
+        unpaid_borrow.save()
 
 
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+    user = request.user
+    reserve_period = user.rule.reserve_period
+    fine_per_day = user.rule.fine_per_day
+    update_reserve_status(reserve_period)
+    update_book_reserve_status()
+    update_book_borrow_status()
+    update_overdue_days()
+    update_book_fine(fine_per_day)
+    unreturned_borrows_per_user = Borrow.objects.filter(
+        user=user, return_date__isnull=True)
+    overdue_unpaid_borrows = Borrow.objects.filter(
+        Q(overdue_days__gt=0) &
+        Q(return_date__isnull=False) &
+        Q(fine_paid=False) & Q(user=user)
+    )
+    total_fine = overdue_unpaid_borrows.aggregate(Sum('book_fine'))['book_fine__sum'] or 0
+
+    reserved_items = Reserve.objects.filter(reserve_status='active',user=user)
+
+    context = {'unreturned_borrows': unreturned_borrows_per_user,
+               'overdue_unpaid_borrows': overdue_unpaid_borrows,
+               'total_fine': total_fine,
+               'reserved_items': reserved_items}
+    return render(request, 'accounts/dashboard.html', context)
 
 
 def forgotpass(request):

@@ -52,11 +52,13 @@
           </div>
           <br />
           <h4>Borrowed and not returned items</h4>
+          {% if unreturned_borrows %}
           <table class="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
+                <th scope="col">Author</th>
                 <th scope="col">Borrow Date</th>
                 <th scope="col">Due Date</th>
                 <th scope="col">Location</th>
@@ -64,58 +66,60 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="table-warning">
-                <td>22</td>
-                <td>Book title 1</td>
-                <td>15 Aug 2024</td>
-                <td>15 Sep 2024</td>
-                <td>Yau Ma Tei</td>
+              {% for borrow in unreturned_borrows %}
+              <tr 
+              {% if borrow.is_overdue %}
+              class="table-warning"
+              {% endif %}
+              >
+                <td>{{forloop.counter}}</td>
+                <td>{{borrow.book.title}}</td>
+                <td>{{borrow.book.author}}</td>
+                <td>{{borrow.borrow_date}}</td>
+                <td>{{borrow.due_date}}</td>
+                <td>{{borrow.book.library.district}}</td>
+                {% if borrow.is_overdue %}
                 <td>Yes</td>
-              </tr>
-              <tr>
-                <td>22</td>
-                <td>Book title 1</td>
-                <td>15 Aug 2024</td>
-                <td>15 Sep 2024</td>
-                <td>Yau Ma Tei</td>
+                {% else %}
                 <td>No</td>
+                {% endif %}
               </tr>
+              
+             
+              {% endfor %}
+
             </tbody>
           </table>
+          {% else %}
+          <h5>You have not borrowed any items.</h5>
+          {% endif %}
 
           <h4>Overdue charges</h4>
+          {% if overdue_unpaid_borrows %}
           <table class="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Property</th>
-                <th></th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Days Overdue</th>
+                <th scope="col">Fine (HKD)</th>
               </tr>
             </thead>
             <tbody>
+              {% for borrow in overdue_unpaid_borrows %}
               <tr>
-                <td>22</td>
-                <td>45 Prince Street</td>
-                <td>
-                  <a class="btn btn-light" href="#">View Listing</a>
-                </td>
+                <td>{{forloop.counter}}</td>
+                <td>{{borrow.book.title}}</td>
+                <td>{{borrow.book.author}}</td>
+                <td>{{borrow.overdue_days}}</td>
+                <td>${{borrow.book_fine | floatformat }}</td>
               </tr>
-              <tr>
-                <td>43</td>
-                <td>22 Westbrook rd</td>
-                <td>
-                  <a class="btn btn-light" href="#">View Listing</a>
-                </td>
-              </tr>
-              <tr>
-                <td>31</td>
-                <td>12 Samson Ave</td>
-                <td>
-                  <a class="btn btn-light" href="#">View Listing</a>
-                </td>
-              </tr>
+              {% endfor %}
+
             </tbody>
           </table>
+          <p>Total fine is ${{total_fine | floatformat }}</p>
           <p>
             <a href="https://example.com/pay" class="btn btn-success mb-2">
               <i class="fas fa-credit-card"></i> Pay
@@ -123,43 +127,40 @@
             <span>Click here to pay your overdue charges</span>
           </p>
           <p><strong>Supported payment method:</strong> Credit card.</p>
+          {% else %}
+          <h5>You don't have any outstanding charges.</h5>
+          {% endif %}
           
           
 
           <h4>Reserved items</h4>
+          {% if reserved_items %}
           <table class="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Property</th>
-                <th></th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Pickup Library</th>
+                <th scope="col">Reserve Date</th>
               </tr>
             </thead>
             <tbody>
+              {% for reserve in reserved_items %}
               <tr>
-                <td>22</td>
-                <td>45 Prince Street</td>
-                <td>
-                  <a class="btn btn-light" href="#">View Listing</a>
-                </td>
+                <td>{{forloop.counter}}</td>
+                <td>{{reserve.book.title}}</td>
+                <td>{{reserve.book.author}}</td>
+                <td>{{reserve.book.library.district}}</td>
+                <td>{{reserve.reserve_date}}</td>
               </tr>
-              <tr>
-                <td>43</td>
-                <td>22 Westbrook rd</td>
-                <td>
-                  <a class="btn btn-light" href="#">View Listing</a>
-                </td>
-              </tr>
-              <tr>
-                <td>31</td>
-                <td>12 Samson Ave</td>
-                <td>
-                  <a class="btn btn-light" href="#">View Listing</a>
-                </td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
-          <p>Please take your reserve item within 3 days!</p>
+          <p>Please take your reserve item within 3 days of your reserve date!</p>
+          {% else %}
+          <h5>You don't have any reserved items.</h5>
+          {% endif %}
         </div>
       </div>
     </div>
