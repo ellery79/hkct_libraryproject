@@ -9,6 +9,9 @@ from django.db.models import Q
 from django.db.models import Sum
 from django.core.mail import send_mail
 from decouple import config
+import random
+import string
+import time
 
 # Create your views here.
 
@@ -181,19 +184,43 @@ def dashboard(request):
     return render(request, 'accounts/dashboard.html', context)
 
 
-def email_password_reset_link(myEmail):
+def email_new_password(myEmail, domain, password, toEmail):
     send_mail(
-        "Password reset link for your ABC Library account",  # subject
-        "Below is the password reset link:",
+        "New password for ABC Library",  # subject
+        f"You're receiving this email because you requested a password reset for your user account at {domain}. \n Your new password is {password} \n Please login here: http://{domain}/accounts/login",
         myEmail,  # from email
-        ['hcpoon@gmail.com', 'hcpoon@simitrigroup.com'],
+        [toEmail],
         fail_silently=False,
     )
 
 
-def forgotpass(request):
-    myEmail = config('MY_EMAIL')
+def generate_password(length=8):
+    characters = string.ascii_letters + string.digits
+    password = ''.join(random.choice(characters) for i in range(length))
+    return password
 
+
+def forgotpass(request):
+    if request.user.is_authenticated:
+        messages.info(
+            request, 'You have logged in and can change your password here')
+        return render(request, 'accounts/changepass.html')
+    if request.method == 'POST':
+        user_email = request.POST['email']
+        if CustomUser.objects.filter(email=user_email).exists():
+            selected_user = CustomUser.objects.get(email=user_email)
+            myEmail = config('MY_EMAIL')
+            domain = request.get_host()
+            new_password = generate_password(length=8)
+            email_new_password(myEmail, domain, new_password, user_email)
+            selected_user.set_password(new_password)
+            selected_user.save()
+        else:
+            random_value = random.uniform(3.5, 4.5)
+            time.sleep(random_value)
+        messages.success(
+                request, 'Email sent. If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder.')
+        return redirect('forgotpass')
     return render(request, 'accounts/forgotpass.html')
 
 
@@ -211,7 +238,7 @@ def changepass(request):
             user.save()
             messages.success(
                 request, 'You are success change password and login with your new password.')
-            return redirect('index')
+            return redirect('login')
         else:
             messages.error(request, 'Passwords do not match')
             return redirect('changepass')
