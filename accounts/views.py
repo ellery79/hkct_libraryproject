@@ -148,6 +148,10 @@ def update_book_fine(fine_per_day):
 
 
 def dashboard(request):
+    if not request.user.is_authenticated:
+        messages.info(
+            request, 'Please login before you can see dashboard')
+        return render(request, 'accounts/login.html')
     user = request.user
     reserve_period = user.rule.reserve_period
     fine_per_day = user.rule.fine_per_day
@@ -163,9 +167,10 @@ def dashboard(request):
         Q(return_date__isnull=False) &
         Q(fine_paid=False) & Q(user=user)
     )
-    total_fine = overdue_unpaid_borrows.aggregate(Sum('book_fine'))['book_fine__sum'] or 0
+    total_fine = overdue_unpaid_borrows.aggregate(
+        Sum('book_fine'))['book_fine__sum'] or 0
 
-    reserved_items = Reserve.objects.filter(reserve_status='active',user=user)
+    reserved_items = Reserve.objects.filter(reserve_status='active', user=user)
 
     context = {'unreturned_borrows': unreturned_borrows_per_user,
                'overdue_unpaid_borrows': overdue_unpaid_borrows,
@@ -179,11 +184,22 @@ def forgotpass(request):
 
 
 def changepass(request):
+    if not request.user.is_authenticated:
+        messages.info(
+            request, 'Please login before you can change password!')
+        return render(request, 'accounts/login.html')
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        selected_user = CustomUser.objects.filter(username=username)
-        selected_user.set_password(password)
-        selected_user.save()
+        new_password = request.POST['password']
+        con_password = request.POST['password2']
+        if new_password == con_password:
+            user = request.user
+            user.set_password(new_password)
+            user.save()
+            messages.success(
+                request, 'You are success change password and login with your new password.')
+            return redirect('index')
+        else:
+            messages.error(request, 'Passwords do not match')
+            return redirect('changepass')
+    else:
         return render(request, 'accounts/changepass.html')
-    return render(request, 'accounts/changepass.html')
