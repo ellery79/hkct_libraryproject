@@ -7,6 +7,8 @@ from datetime import date, timedelta
 from books.models import Book
 from django.db.models import Q
 from django.db.models import Sum
+from django.core.mail import send_mail
+from decouple import config
 
 # Create your views here.
 
@@ -179,7 +181,19 @@ def dashboard(request):
     return render(request, 'accounts/dashboard.html', context)
 
 
+def email_password_reset_link(myEmail):
+    send_mail(
+        "Password reset link for your ABC Library account",  # subject
+        "Below is the password reset link:",
+        myEmail,  # from email
+        ['hcpoon@gmail.com', 'hcpoon@simitrigroup.com'],
+        fail_silently=False,
+    )
+
+
 def forgotpass(request):
+    myEmail = config('MY_EMAIL')
+
     return render(request, 'accounts/forgotpass.html')
 
 
