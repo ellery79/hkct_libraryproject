@@ -13,8 +13,15 @@ import random
 import string
 from functools import wraps
 from django.http import HttpResponse
+import json
+import stripe
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
+
+stripe.api_key = config('STRIPE_SECRET_KEY')
+stripe_publishable_key = config('STRIPE_PUBLISHABLE_KEY')
 
 
 def login(request):
@@ -152,6 +159,7 @@ def update_book_fine(fine_per_day):
         unpaid_borrow.book_fine = unpaid_borrow.overdue_days * fine_per_day
         unpaid_borrow.save()
 
+
 def dashboard(request):
     if not request.user.is_authenticated:
         messages.info(
@@ -179,6 +187,7 @@ def dashboard(request):
                'overdue_unpaid_borrows': overdue_unpaid_borrows,
                'total_fine': total_fine,
                'reserved_items': reserved_items,
+               'stripe_publishable_key': stripe_publishable_key,
                }
     return render(request, 'accounts/dashboard.html', context)
 
@@ -248,3 +257,47 @@ def changepass(request):
             return redirect('changepass')
     else:
         return render(request, 'accounts/changepass.html')
+
+
+@csrf_exempt
+def create_checkout_session(request):
+    if request.method == 'POST':
+        try:
+            domain = request.get_host()
+            data = json.loads(request.body)
+            customer_email = request.user.email
+            total_amount = int(data.get('total_amount')
+                               * 100)  # Convert to cents
+            session = stripe.checkout.Session.create(
+                customer_email=customer_email,
+                line_items=[{
+                    'price_data': {
+                        'currency': 'hkd',
+                        'product_data': {
+                            'name': 'Overdue Charges',
+                        },
+                        'unit_amount': total_amount,
+                    },
+                    'quantity': 1,
+                }],
+                automatic_tax={"enabled": False},
+                mode='payment',
+                success_url=f'http://{domain}/accounts/payment-success',
+                cancel_url=f'http://{domain}/accounts/payment-failure',
+            )
+            return JsonResponse({'id': session.id})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=403)
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+def payment_success(request):
+    messages.success(
+        request, 'Payment success!')
+    return redirect('dashboard')
+
+
+def payment_failure(request):
+    messages.error(
+        request, 'Payment failed!')
+    return redirect('dashboard')
