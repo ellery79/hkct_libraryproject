@@ -11,7 +11,8 @@ from django.core.mail import send_mail
 from decouple import config
 import random
 import string
-import time
+from functools import wraps
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -30,7 +31,7 @@ def login(request):
             messages.success(request, "You are now logged in")
             return redirect('dashboard')
         else:
-            messages.error(request, 'invalid credentials')
+            messages.error(request, 'invalid credentials or email.')
             return redirect('login')
     else:
         return render(request, 'accounts/login.html')
@@ -151,7 +152,6 @@ def update_book_fine(fine_per_day):
         unpaid_borrow.book_fine = unpaid_borrow.overdue_days * fine_per_day
         unpaid_borrow.save()
 
-
 def dashboard(request):
     if not request.user.is_authenticated:
         messages.info(
@@ -174,13 +174,12 @@ def dashboard(request):
     )
     total_fine = overdue_unpaid_borrows.aggregate(
         Sum('book_fine'))['book_fine__sum'] or 0
-
     reserved_items = Reserve.objects.filter(reserve_status='active', user=user)
-
     context = {'unreturned_borrows': unreturned_borrows_per_user,
                'overdue_unpaid_borrows': overdue_unpaid_borrows,
                'total_fine': total_fine,
-               'reserved_items': reserved_items}
+               'reserved_items': reserved_items,
+               }
     return render(request, 'accounts/dashboard.html', context)
 
 
@@ -201,27 +200,32 @@ def generate_password(length=8):
 
 
 def forgotpass(request):
-    if request.user.is_authenticated:
-        messages.info(
-            request, 'You have logged in and can change your password here')
-        return render(request, 'accounts/changepass.html')
-    if request.method == 'POST':
-        user_email = request.POST['email']
-        if CustomUser.objects.filter(email=user_email).exists():
-            selected_user = CustomUser.objects.get(email=user_email)
-            myEmail = config('MY_EMAIL')
-            domain = request.get_host()
-            new_password = generate_password(length=8)
-            email_new_password(myEmail, domain, new_password, user_email)
-            selected_user.set_password(new_password)
-            selected_user.save()
-        else:
-            random_value = random.uniform(3.5, 4.5)
-            time.sleep(random_value)
-        messages.success(
-                request, 'Email sent. If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder.')
-        return redirect('forgotpass')
-    return render(request, 'accounts/forgotpass.html')
+    match request:
+        case _ if request.user.is_authenticated:
+            messages.info(
+                request, 'You have logged in and can change your password here')
+            return render(request, 'accounts/changepass.html')
+
+        case _ if request.method == 'POST':
+            user_email = request.POST.get('email')
+            match CustomUser.objects.filter(email=user_email).first():
+                case None:
+                    messages.error(
+                        request, "Email is invalid. Please enter a correct email.")
+                case selected_user:
+                    myEmail = config('MY_EMAIL')
+                    domain = request.get_host()
+                    new_password = generate_password(length=8)
+                    email_new_password(
+                        myEmail, domain, new_password, user_email)
+                    selected_user.set_password(new_password)
+                    selected_user.save()
+                    messages.success(
+                        request, "Email sent. If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder.")
+            return redirect('forgotpass')
+
+        case _:
+            return render(request, 'accounts/forgotpass.html')
 
 
 def changepass(request):

@@ -1,0 +1,28 @@
+<h4>Reserved items</h4>
+{% if reserved_items %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Author</th>
+      <th scope="col">Pickup Library</th>
+      <th scope="col">Reserve Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for reserve in reserved_items %}
+    <tr>
+      <td>{{forloop.counter}}</td>
+      <td>{{reserve.book.title}}</td>
+      <td>{{reserve.book.author}}</td>
+      <td>{{reserve.book.library.district}}</td>
+      <td>{{reserve.reserve_date}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p>Please take your reserve item within 3 days of your reserve date!</p>
+{% else %}
+<h5>You don't have any reserved items.</h5>
+{% endif %}
