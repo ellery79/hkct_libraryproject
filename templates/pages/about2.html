@@ -53,7 +53,7 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col-md-12">
-                    <h1 class="display-4">About ABC Library</h1>
+                    <h1 class="display-4">About Hong Kong Library</h1>
                     <p class="lead">
                         These features make the Hong Kong Library an important place for learning, information, and culture.
                     </p>
@@ -380,75 +380,62 @@
 
     
 
-            <section id="library-rules" class="py-5 bg-light">
-                <div class="container">
-                    <h2 class="mb-4">Introduction to Library Materials Lending Services*</h2>
-                    
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="h5 mb-0">Library Card</h3>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-unstyled">
-                                <li>Holders of valid library cards issued by the ABC Libraries may borrow and return library materials at any public library and the self-service library stations.</li>
-                                <li>A library card is not to be lent or transferred.</li>
-                            </ul>
-                        </div>
-                    </div>
-            
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="h5 mb-0">Borrowing Limit for Library Materials</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>Each registered reader may borrow a maximum of {{default_rule.borrow_limit | apnumber | upper}} items of library materials together with accompanying library materials and periodicals.</p>
-                        </div>
-                    </div>
-            
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="h5 mb-0">Time Limit for Borrowing Library Materials</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>Library materials for lending may be borrowed for a period of {{default_rule.borrow_period}} days.</p>
-                        </div>
-                    </div>
-            
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="h5 mb-0">Overdue Fine</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>An overdue fine is imposed on each and every loan item and accompanying library material returned late. The charge is ${{default_rule.fine_per_day | floatformat }} per day.</p>
-                        </div>
-                    </div>
-            
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="h5 mb-0">Replacement Cost for Lost or Damaged Library Materials</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>If any library material borrowed is lost or damaged, the borrower shall be liable to pay to the Government such sum of money as the librarian considers necessary to replace such library material or the whole set of library material of which such library material forms a part. In addition, the borrower may be required to pay a surcharge amounting to 20 per cent of such sum.</p>
-                        </div>
-                    </div>
-            
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="h5 mb-0">Reservation of Library Materials</h3>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-unstyled">
-                                <li>Each registered reader may reserve a maximum of {{default_rule.reserve_limit}} items of library materials.</li>
-                                <li>Reader should take the reserve at the designated library themselves within {{default_rule.reserve_period}} days.</li>
-                                <li>The book will be released after {{default_rule.reserve_period}} days.</li>
-                            </ul>
-                
-                        </div>
-                    </div>
-            
-                    <p class="text-muted mt-4">* Please refer to the 'Libraries Regulation' for the regulations of using various library services.</p>
+    <section id="about" class="py-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-15">
+                    <h2>Introduction to Library Materials Lending Services*</h2>
+                    <p class="lead"></p>
                 </div>
-            </section>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-15">  
+                    <h5>
+                        Library Card<br><br>       
+                        Holders of valid library cards issued by the Hong Kong Public Libraries, identity cards allowed for library purposes, 
+                        or library cards/borrower's cards issued by the two former Municipal Council Public Libraries may borrow
+                        and return library materials at any public library and the self-service library stations. Readers are also welcome to use book
+                        drop service of Hong Kong Public Libraries (including service at MTR Central, Kowloon Tong and Nam Cheong stations) to return library materials.<br><br>
+                        A library card is not to be lent or transferred.<br><br>
+                        Borrowing Limit for Library Materials<br><br>
+                        Each registered reader may borrow a maximum of TEN items of library materials together with accompanying library materials,
+                        or a maximum of  TWENTY items of back issues of periodicals.<br><br>
+                        Time Limit for Borrowing Library Materials<br><br>
+                        Library materials for lending may be borrowed for a period of {{default_rule.borrow_period}} days.<br><br>
+                        Overdue Fine<br><br>   
+                        An overdue fine is imposed on each and every loan item and accompanying library material returned late.
+                        The charge is $1.5 per day or part of a day for each loan item or accompanying library material borrowed from an adult library and $0.5 for that borrowed
+                        from a young adult or children's library. Except mobile libraries, overdue fines will also be levied on the closing days of any individual library.<br><br>
+                        Replacement Cost for Lost or Damaged Library Materials<br><br>
+                        If any library material borrowed is lost or damaged, the borrower shall be liable to pay to the Government such sum of money 
+                        as the librarian considers necessary to replace such library material or the whole set of library material  f which such library material
+                        forms a part. In addition, the borrower may be required to pay a surcharge amounting to 20 per cent of such sum.<br><br>
+                        Renewal of Library Materials (Notes for the Renewal Service)<br><br>
+                        Unless already reserved by another reader, each loan item may be renewed for up to five consecutive times with a period of 14 days for each renewal.<br><br>
+                        Library materials can be renewed in person, by telephone, through the Internet or “My Library” mobile app. Since the loan item
+                        may have been reserved by another reader or cannot be renewed for other reasons, it is recommended that renewal by telephone,  through the Internet or “My Library”
+                        mobile app be made at least one working day before the due date to allow time for the prompt return of the loan item in case renewal is unsuccessful.<br><br>
+                        (A 24-hour renewal service is available by telephone on 2698 0002 / 2827 2833 or through the Internet at<br><br>
+                        https://webcat.hkpl.gov.hk/auth/login?theme=WEB&locale=en or “My Library” mobile app at https://www.hkpl.gov.hk/en/about-us/services/mobileapp.html)<br><br>
+                        The new due date is calculated from the day the item is renewed irrespective of the original due date.
+                        A new loan period of 14 days applies and will not be extended even if the item is renewed earlier.<br><br>
+                        All loan items which cannot be renewed should be returned to the Hong Kong Public Libraries by the due date. Borrowers must pay the fine for all overdue loan items.<br><br>
+                        Reservation Service (Notes for the Reservation Service)<br><br>
+                        Each registered reader may reserve a maximum of 10 items of library materials. A reservation fee of $3.3 will be charged for each item
+                        (or the prevailing valid reservation fee at the time of collection). Once an item is successfully reserved,
+                        the reader making the reservation is required to pay the reservation fee no matter he collects the item or not.<br><br>
+                        Download the form for Reservation of Library Materials<br><br>
+                        Receipts<br><br>
+                        Readers may pay all library fees and charges by FPS or LDWs at the library service counter. Upon completion of payment, a machine-printed receipt will be issued.
+                        Readers may also pay most of the fees and charges by Octopus. However, paying the self-service photocopying charge by Octopus will not be issued a receipt. 
+                        Should a receipt be required, please inform the library staff before using the service and pay by cash, FPS or LDWs. If readers choose to pay by cash for the replacement of library cards, 
+                        the library staff will issue a receipt upon collection of payment. On the other hand, for readers who choose to pay overdue fines or charges for the reservation of library materials
+                        by depositing cash into the coin box at library service counters (no change will be given), they will be issued a receipt only if they make a request prior to payment.<br><br>
+                        * Please refer to the 'Libraries Regulation' for the regulations of using various library services.
+                    </h5>
+                </div>
+            </div>
 
 </body>
 
