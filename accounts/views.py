@@ -17,7 +17,6 @@ import json
 import stripe
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import time
 
 # Create your views here.
 
@@ -307,3 +306,4 @@ def payment_failure(request):
     messages.error(
         request, 'Payment failed!')
     return redirect('dashboard')
+
