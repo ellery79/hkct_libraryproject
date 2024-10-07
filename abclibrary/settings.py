@@ -9,9 +9,8 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
-from pathlib import Path
 import os
+from pathlib import Path
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -84,9 +83,9 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'librarydb1',
-        'USER': 'dbadmin',
-        'PASSWORD': '1234',
+        'NAME': 'libdb1',
+        'USER': 'postgres',
+        'PASSWORD': '123!',
         'HOST': 'localhost',
     }
 }
@@ -126,11 +125,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = 'static/'  # this line already given
+##STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_URL = '/static/'  # this line already given
+##STATIC_URL = 'static/'  # this line already given
+##STATICFILES_DIRS = [
+    ###os.path.join(BASE_DIR, 'abclibrary/static')
+    #os.path.join(BASE_DIR, 'static')
+    #BASE_DIR / "static",  # 假設你的靜態文件在這個目錄下
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'abclibrary/static')
+    os.path.join(BASE_DIR, 'static'),  # 确保指向你的静态文件目录
 ]
+# 靜態文件收集目錄
+STATIC_ROOT = BASE_DIR / "staticfiles"  # 收集靜態文件的目錄
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

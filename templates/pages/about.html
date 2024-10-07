@@ -1,7 +1,7 @@
-{% extends 'base.html'%} 
+{% extends 'base.html' %}
 {% load humanize %}
 
-<!--add title to the tab-->
+<!-- Add title to the tab -->
 {% block title %}Welcome{% endblock %}
 
 {% block content %}
@@ -9,12 +9,459 @@
 
 {% include 'partials/_alert.html' %}
 
-<h1> this is about.html </h1>
-{% for library in library_list %}
-<h3>the counter is {{forloop.counter}}</h3>
-<h3>the library district is {{library.district}}</h3>
-<h3>the library address is {{library.address}}</h3>
-<br/>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
 
-{% endfor %}
+        .flexslider .slides img {
+            max-width: 100%;
+            max-height: 46px;
+            width: auto;
+            height: auto;
+        }
+
+        .slider-container {
+            margin-bottom: 80px;
+            text-align: center;
+        }
+
+        .slider-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .col-md-20 {
+            margin-bottom: 20px;
+            margin-right: 10px; 
+            display: inline-block;
+        }
+    </style>
+
+    <!-- Scripts include -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.7.2/flexslider.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>BC Real Estate</title>
+</head>
+
+<body>
+    <section id="showcase-inner" class="py-5 text-white">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h1 class="display-4">About Hong Kong Library</h1>
+                    <p class="lead">
+                        These features make the Hong Kong Library an important place for learning, information, and culture.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <section id="bc" class="mt-3">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">About</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <section id="about" class="py-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-15">
+                    <h2>Hong Kong Central Library Introduction</h2>
+                    <p class="lead"></p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-15">  
+                    <h5>
+                        The 12-storey high building occupies a gross area of 9,400 sq. metres and a floor area of 33,800 sq. metres.<br><br>       
+                        The construction cost is HK$690 million. It is the biggest library facility among the Hong Kong Public Libraries System.<br><br>
+                        The arch-shaped entrance at the front elevation of the Hong Kong Central Library represents the Gate to Knowledge,
+                        while the graphics in the shape of triangle, square and circle denote different meanings. A full range of library facilities on a larger scale.<br><br>
+                        The circle stands for the sky, the square for the land and the triangle for accumulation of knowledge.<br><br>
+                        With its commissioning in May 2001, the Hong Kong Central Library not only provides but also provides comprehensive
+                        reference and information services to a fuller extent. Other major facilities include self-checkout machines,
+                        bookdrop service, information kiosks, and Multimedia Information System.
+                    </h5>
+                    <p class="lead"></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-7" style="text-align: center; margin: 0 auto;">
+                    <img
+                        src="{{central.photo_main.url}}"
+                        alt="{{central.photo_main.url}}"
+                        class="img-main img-fluid mb-3"
+                        style="max-width: 100%; height:600px;"/>
+                    <div style="color: white; background-color: rgba(0, 0, 0, 0.5); padding: 5px;">
+                        The counter is the library district is Central, the library address is 66 Causeway Road, Causeway Bay, Hong Kong
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thumbnails for Hong Kong Central Library -->
+            <div class="flexslider" id="central-library-slider">
+                <ul class="slides">
+                    <div class="row mb-1 thumbs" id="image-container">
+                        <div class="col-md-100" style="text-align: center; margin: 0 auto;">
+                            <div class="container">
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-1.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-1.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-2.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-2.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-3.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-3.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-4.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-4.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-5.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-5.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-6.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-6.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-7.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-7.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-8.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-8.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-9.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-9.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-10.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-10.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+
+            <section id="about" class="py-10">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-15">
+                            <h2>Kowloon Public Library Introduction</h2>
+                            <p class="lead"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-15">  
+                            <h5>
+                                The Kowloon Public Library is the first purpose-built library building. The first phase was opened on November 16, 1984, 39 years ago,     
+                                replacing the Waterloo Road Public Library opened in 1965.<br><br> 
+                                The second phase was opened in September 1985. It was opened on the 9th, and the opening ceremony was presided over by the then Governor of Hong Kong,
+                                Lady Youde.<br><br> 
+                                When it was first completed,
+                                it was called the Kowloon Central Library. In order to cope with the opening of the Hong Kong Central Library in 2001,
+                                it was renamed the Kowloon Public Library in 2000.
+                            </h5>
+                            <p class="lead"></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-7" style="text-align: center; margin: 0 auto;">
+                            <img
+                                src="{{kowloon.photo_main.url}}"
+                                alt="{{kowloon.photo_main.url}}"
+                                class="img-main img-fluid mb-3"
+                                style="max-width: 100%; min-height: 600px;"/>
+                            <div style="color: white; background-color: rgba(0, 0, 0, 0.5); padding: 5px;">
+                                The counter is the library district is Kowloon, the library address is 5 Pui Ching Road, Kowloon
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Thumbnails for Kowloon Public Library -->
+                    <div class="flexslider" id="kowloon-library-slider">
+                        <ul class="slides">
+                            <div class="row mb-2 thumbs" id="image-container">
+                                <div class="col-md-50" style="text-align: center; margin: 0 auto;">
+                                    <div class="container">
+                                        <div class="col-md-20">
+                                            <a href="static/img/homes/library-11.png" data-lightbox="home-images">
+                                                <img src="static/img/homes/library-11.png" alt="" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                        <div class="col-md-20">
+                                            <a href="static/img/homes/library-12.png" data-lightbox="home-images">
+                                                <img src="static/img/homes/library-12.png" alt="" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                        <div class="col-md-20">
+                                            <a href="static/img/homes/library-13.png" data-lightbox="home-images">
+                                                <img src="static/img/homes/library-13.png" alt="" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                        <div class="col-md-20">
+                                            <a href="static/img/homes/library-14.png" data-lightbox="home-images">
+                                                <img src="static/img/homes/library-14.png" alt="" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                        <div class="col-md-20">
+                                            <a href="static/img/homes/library-15.png" data-lightbox="home-images">
+                                                <img src="static/img/homes/library-15.png" alt="" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                        <div class="col-md-20">
+                                            <a href="static/img/homes/library-16.png" data-lightbox="home-images">
+                                                <img src="static/img/homes/library-16.png" alt="" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                        <div class="col-md-20">
+                                            <a href="static/img/homes/library-17.png" data-lightbox="home-images">
+                                                <img src="static/img/homes/library-17.png" alt="" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                        <div class="col-md-20">
+                                            <a href="static/img/homes/library-18.png" data-lightbox="home-images">
+                                                <img src="static/img/homes/library-18.png" alt="" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                        <div class="col-md-20">
+                                            <a href="static/img/homes/library-19.png" data-lightbox="home-images">
+                                                <img src="static/img/homes/library-19.png" alt="" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                        <div class="col-md-20">
+                                            <a href="static/img/homes/library-20.png" data-lightbox="home-images">
+                                                <img src="static/img/homes/library-20.png" alt="" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+        
+            
+
+            <section id="about" class="py-10">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-15">
+                            <h2>Tseung Kwan O Public Library Introduction</h2>
+                            <p class="lead"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-15">  
+                            <h5>
+                                Tseung Kwan O Public Library started construction in 1999 and was officially opened for service on July 21, 2001.<br><br>       
+                                It covers an area of ​​2,200 square meters and the construction cost is HK$53 million. Audio-visual materials 
+                                and it has a collection of approximately 170,000 Chinese and English books and is the first library with an independent building.<br><br>
+                                Together with the adjacent Tseung Kwan O Swimming Pool and Tseung Kwan O Sports Center,
+                                they were all designed by Kwan Sun Ming Architects. In recent years, libraries have also provided more electronic services,
+                                including government Wi-Fi wireless Internet services, "Easy Print" self-service printing services, etc.
+                            </h5>
+                            <p class="lead"></p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-7" style="text-align: center; margin: 0 auto;">
+                            <img
+                                src="{{nt.photo_main.url}}"
+                                alt="{{nt.photo_main.url}}"
+                                class="img-main img-fluid mb-3"
+                                style="max-width: 100%; min-height: 600px;"/> 
+                            <div style="color: white; background-color: rgba(0, 0, 0, 0.5); padding: 5px;">
+                                The counter is the library district is New Territories, the library address is 9, Wan Lung Road, Tseung Kwan O
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Thumbnails for Tseung Kwan O Public Library -->
+                    <div class="flexslider" id="tseung-kwan-o-library-slider">
+                        <ul class="slides">
+                            <div class="row mb-5 thumbs" id="image-container">
+                                <div class="col-md-40" style="text-align: center; margin: 0 auto;">
+                                    <div class="container">
+                                        <div class="col-md-20">
+                                            <a href="static/img/homes/library-21.png" data-lightbox="home-images">
+                                                <img src="static/img/homes/library-21.png" alt="" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                        <div class="col-md-20">
+                                            <a href="static/img/homes/library-22.png" data-lightbox="home-images">
+                                                <img src="static/img/homes/library-22.png" alt="" class="img-fluid" />
+                                            </a>
+                                        </div>
+                                        <div class="col-md-20">
+                                    <a href="static/img/homes/library-23.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-23.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-24.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-24.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-25.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-25.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-26.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-26.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-27.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-27.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-28.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-28.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-29.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-29.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="col-md-20">
+                                    <a href="static/img/homes/library-30.png" data-lightbox="home-images">
+                                        <img src="static/img/homes/library-30.png" alt="" class="img-fluid" />
+                                    </a>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+
+    
+
+    <section id="about" class="py-10">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-15">
+                    <h2>Introduction to Library Materials Lending Services*</h2>
+                    <p class="lead"></p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-15">  
+                    <h5>
+                        Library Card<br><br>       
+                        Holders of valid library cards issued by the Hong Kong Public Libraries, identity cards allowed for library purposes, 
+                        or library cards/borrower's cards issued by the two former Municipal Council Public Libraries may borrow
+                        and return library materials at any public library and the self-service library stations. Readers are also welcome to use book
+                        drop service of Hong Kong Public Libraries (including service at MTR Central, Kowloon Tong and Nam Cheong stations) to return library materials.<br><br>
+                        A library card is not to be lent or transferred.<br><br>
+                        Borrowing Limit for Library Materials<br><br>
+                        Each registered reader may borrow a maximum of TEN items of library materials together with accompanying library materials,
+                        or a maximum of  TWENTY items of back issues of periodicals.<br><br>
+                        Time Limit for Borrowing Library Materials<br><br>
+                        Library materials for lending may be borrowed for a period of {{default_rule.borrow_period}} days.<br><br>
+                        Overdue Fine<br><br>   
+                        An overdue fine is imposed on each and every loan item and accompanying library material returned late.
+                        The charge is $1.5 per day or part of a day for each loan item or accompanying library material borrowed from an adult library and $0.5 for that borrowed
+                        from a young adult or children's library. Except mobile libraries, overdue fines will also be levied on the closing days of any individual library.<br><br>
+                        Replacement Cost for Lost or Damaged Library Materials<br><br>
+                        If any library material borrowed is lost or damaged, the borrower shall be liable to pay to the Government such sum of money 
+                        as the librarian considers necessary to replace such library material or the whole set of library material  f which such library material
+                        forms a part. In addition, the borrower may be required to pay a surcharge amounting to 20 per cent of such sum.<br><br>
+                        Renewal of Library Materials (Notes for the Renewal Service)<br><br>
+                        Unless already reserved by another reader, each loan item may be renewed for up to five consecutive times with a period of 14 days for each renewal.<br><br>
+                        Library materials can be renewed in person, by telephone, through the Internet or “My Library” mobile app. Since the loan item
+                        may have been reserved by another reader or cannot be renewed for other reasons, it is recommended that renewal by telephone,  through the Internet or “My Library”
+                        mobile app be made at least one working day before the due date to allow time for the prompt return of the loan item in case renewal is unsuccessful.<br><br>
+                        (A 24-hour renewal service is available by telephone on 2698 0002 / 2827 2833 or through the Internet at<br><br>
+                        https://webcat.hkpl.gov.hk/auth/login?theme=WEB&locale=en or “My Library” mobile app at https://www.hkpl.gov.hk/en/about-us/services/mobileapp.html)<br><br>
+                        The new due date is calculated from the day the item is renewed irrespective of the original due date.
+                        A new loan period of 14 days applies and will not be extended even if the item is renewed earlier.<br><br>
+                        All loan items which cannot be renewed should be returned to the Hong Kong Public Libraries by the due date. Borrowers must pay the fine for all overdue loan items.<br><br>
+                        Reservation Service (Notes for the Reservation Service)<br><br>
+                        Each registered reader may reserve a maximum of 10 items of library materials. A reservation fee of $3.3 will be charged for each item
+                        (or the prevailing valid reservation fee at the time of collection). Once an item is successfully reserved,
+                        the reader making the reservation is required to pay the reservation fee no matter he collects the item or not.<br><br>
+                        Download the form for Reservation of Library Materials<br><br>
+                        Receipts<br><br>
+                        Readers may pay all library fees and charges by FPS or LDWs at the library service counter. Upon completion of payment, a machine-printed receipt will be issued.
+                        Readers may also pay most of the fees and charges by Octopus. However, paying the self-service photocopying charge by Octopus will not be issued a receipt. 
+                        Should a receipt be required, please inform the library staff before using the service and pay by cash, FPS or LDWs. If readers choose to pay by cash for the replacement of library cards, 
+                        the library staff will issue a receipt upon collection of payment. On the other hand, for readers who choose to pay overdue fines or charges for the reservation of library materials
+                        by depositing cash into the coin box at library service counters (no change will be given), they will be issued a receipt only if they make a request prior to payment.<br><br>
+                        * Please refer to the 'Libraries Regulation' for the regulations of using various library services.
+                    </h5>
+                </div>
+            </div>
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.7.2/jquery.flexslider-min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Initialize Flexslider for each library slider
+        $('#central-library-slider').flexslider({
+            animation: "slide",
+            controlNav: true,
+            directionNav: true
+        });
+
+        $('#kowloon-library-slider').flexslider({
+            animation: "slide",
+            controlNav: true,
+            directionNav: true
+        });
+
+        $('#tseung-kwan-o-library-slider').flexslider({
+            animation: "slide",
+            controlNav: true,
+            directionNav: true
+        });
+    });
+</script>
+
 {% endblock %}
