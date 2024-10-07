@@ -292,6 +292,12 @@ def create_checkout_session(request):
 
 
 def payment_success(request):
+    user = request.user
+    Borrow.objects.filter(
+        Q(overdue_days__gt=0) &
+        Q(return_date__isnull=False) &
+        Q(fine_paid=False) & Q(user=user)
+    ).update(fine_paid=True)
     messages.success(
         request, 'Payment success!')
     return redirect('dashboard')
