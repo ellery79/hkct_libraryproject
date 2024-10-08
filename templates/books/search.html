@@ -1,3 +1,164 @@
-{% for i in 4 %}
-<h1>{{i}} </h1>
-{% endfor %}
+{% extends 'base.html' %}
+{% block title %} | Search {% endblock %}   
+{% block content%}
+
+  <section id="showcase-inner" class="showcase-search text-white py-5"> 
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          {% comment %} goto search.html {% endcomment %}
+          <form action={% url 'search' %}>
+            <!-- Form Row 1 -->
+            <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Keywords</label>
+                <input
+                  type="text"
+                  name="keywords"
+                  class="form-control"
+                  placeholder="Keyword (Title, Author, 彩色插圖, 公分, Pages, cm, etc)"
+                  value="{{values.keywords}}"
+                  />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  class="form-control"
+                  placeholder="Title"
+                  value="{{values.title}}"
+                />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">District</label>
+                <select id="library" name="library" class="form-control">
+                  <option selected="true" disabled="disabled">
+                    Libraries (All)
+                  </option>
+                  {% for key, value in district_choices.items %}
+                  <option value="{{ key }}"
+                  {% if key == values.library %} selected {% endif %}
+                  >{{ value }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <!-- Form Row 2 -->
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label class="sr-only">Keywords</label>
+                <input
+                  type="text"
+                  name="author"
+                  class="form-control"
+                  placeholder="Author"
+                  value="{{values.author}}"
+                  />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="sr-only">Title</label>
+                <input
+                  type="text"
+                  name="publisher"
+                  class="form-control"
+                  placeholder="Publisher"
+                  value="{{values.publisher}}"
+                />
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-block mt-4" type="submit">
+              Submit form
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            {% comment %} goto index.html or homr url page {% endcomment %}
+            <a href={% url 'index' %}> <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            {% comment %} goto listings.html or listings url {% endcomment %}
+            <a href={% url 'books' %}>Browse Books</a>
+          </li>
+          <li class="breadcrumb-item active">Search Results</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Listings -->
+  <section id="books" class="py-4">
+    <div class="container">
+      <div class="row">
+        <!-- Listing 1 -->
+        {% comment %} add if and for loop to show listing {% endcomment %}
+        {% if books %}
+        {% for book in books %}
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card listing-preview">
+            <img
+              class="card-img-top"
+              {% comment %} get home1 main photo {% endcomment %}
+              src={{book.photo_main.url}}
+              alt=""
+            />
+            {% if book.is_latest %}
+              <div class="card-img-overlay">
+                <h2>
+                <span class="badge badge-secondary text-white"
+                  >New Released</span
+                >
+                </h2>
+              </div>
+            {% endif %}
+            <div class="card-body">
+              <div class="listing-heading text-center">
+                <h4 class="text-primary">{{book.title}}</h4>
+                <p>
+                  <i class="fas fa-map-marker text-secondary"></i> District: {{book.library}}
+                </p>
+              </div>
+              <hr />
+              <div class="row py-2 text-secondary">
+                <div class="col-12">
+                  <i class="fa fa-user" aria-hidden="true"></i> Author: {{book.author}}
+                </div>
+              </div>
+              <div class="row py-2 text-secondary">
+                <div class="col-12">
+                  <i class="fas fa-car"></i> Publisher: {{book.publisher}}
+                </div>
+              </div>
+              <div class="row py-2 text-secondary">
+                <div class="col-12">
+                  <i class="fas fa-bed"></i> Call number: {{book.call_number}}
+                </div>
+              <hr />
+              {% comment %} goto specific house id url page {% endcomment %}
+              <a href={% url 'book' book.id %} class="btn btn-primary btn-block"
+                >More Info</a
+              >
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="co.-md-12">
+          <p>No Book Listings Available!</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

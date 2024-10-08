@@ -19,7 +19,7 @@
 
   <body>
     {% include 'partials/_topbar.html' %}
-    {% comment %} {% include 'partials/_navbar.html' %} {% endcomment %}
+    {% include 'partials/_navbar.html' %}
     {% block content %} {% endblock %}
     {% include 'partials/_footer.html' %}
     <script src={% static "js/jquery-3.3.1.min.js" %} ></script>
