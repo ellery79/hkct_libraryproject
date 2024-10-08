@@ -1,14 +1,135 @@
-{% extends 'base.html'%} 
-{% load humanize %}
+{%extends 'base.html'%} {% block content%} {% load humanize %}
+    <!-- Breadcrumb -->f
+    <section id="bc" class="mt-3">
+      <div class="container">
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href={% url 'index' %}>Home</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{% url 'book' book.id %}">View Book</a>
+            </li>
+            <li class="breadcrumb-item active">{{book.author}}</li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+    {% comment %} Reserved book message {% endcomment %}
+    {% include 'partials/_alert.html' %}
 
-<!--add title to the tab-->
-{% block title %}Welcome{% endblock %}
-
-{% block content %}
-{% load static %}
-
-{% include 'partials/_alert.html' %}
-
-<h1> this is book.html </h1>
-
+    <!-- Book -->
+    <section id="book" class="py-4">
+      <div class="container">
+        <a href={% url 'books' %} class="btn btn-light mb-4">Back To Books</a>
+      </div>
+      <!-- Description -->
+      <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Book Cover Image -->
+                        {% comment %} <img  alt="" src={{book.photo_main.url}} class="card-img-top" style="height: 300px"> {% endcomment %}
+                        <h5 class="text py-3">Book info:</h5>
+                        <!-- Fields -->
+                        <div class="row">
+                          <div class="col">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item text-secondary">
+                                <i class="fa fa-book"></i> Title:
+                                <span class="float-right">{{book.title}}</span>
+                              </li>
+                            </ul>
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item text-secondary">
+                                <i class="fa fa-user" aria-hidden="true"></i> Author:
+                                <span class="float-right">{{book.author}}</span>
+                              </li>
+                            </ul>
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item text-secondary">
+                                <i class="fas fa-money-bill-alt"></i> Publisher:
+                                <span class="float-right">{{book.publisher}}</span>
+                              </li>
+                            </ul>
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item text-secondary">
+                                <i class="fa fa-calendar" aria-hidden="true"></i> Publication Year:
+                                <span class="float-right">{{book.publication_year}}</span>
+                              </li>
+                            </ul>
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item text-secondary">
+                                <i class="fa fa-list-ol" aria-hidden="true"></i> Call Number:
+                                <span class="float-right">{{book.call_number}}</span>
+                              </li>
+                            </ul>     
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item text-secondary">
+                                <i class="fa fa-clone" aria-hidden="true"></i> Copy:
+                                <span class="float-right">{{book.copy}}</span>
+                              </li>
+                            </ul>
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item text-secondary">
+                                <i class="fas fa-dumbbell"></i> Library:
+                                <span class="float-right">{{book.library}}</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>  
+            {% comment %} {% if user.is_authenticated %}
+            {% include partials/_reserve.html %}
+            {% endif %}  {% endcomment %}
+            <!-- Reserve Table -->
+            <div class="col-sm-12 col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col col-sm-6 col-md-12 col-lg-6" style="border">
+                              <img src="{{ book.photo_main.url }}" class="card-img-top py-3" style="height: 300px;" alt="">
+                          </div>
+                          <div class="col col-sm-6 col-md-12 col-lg-6 p-3">
+                              Book "{{ book.title }}" Available:
+                              <div class="row text-left">
+                              <div class="form-check row">
+                                  {% if districts %}
+                                      <p>
+                                          {% for district in districts %}
+                                              <p class="row p-5">
+                                                  <label class="form-check-label mr-2">
+                                                      <input type="checkbox" class="form-check-input" 
+                                                          {% if user.is_authenticated %}
+                                                              checked
+                                                          {% else %}
+                                                              disabled
+                                                          {% endif %}>
+                                                          {{ book.library }}  <!-- Access the library district -->
+                                                  </label>
+                                              </p>
+                                          {% endfor %}
+                                      </p>
+                                  {% else %}
+                                      <li>No available books in any district.</li>
+                                  {% endif %}
+                                </ul> 
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- Reserve button -->
+              {% if not user.is_authenticated %}
+              <p class="row px-5">Please login to reserve your book</p>
+              {% endif %}
+              <button class="btn btn-primary btn-block" type="submit" {% if not user.is_authenticated %} disabled {% endif %}>
+                  Reserve
+              </button>  
+          </div>
+        </div> 
+    </section>
 {% endblock %}
