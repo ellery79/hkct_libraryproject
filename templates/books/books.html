@@ -46,8 +46,8 @@
           <div class="card listing-preview">
             <img
               class="card-img-top"
-              src={{book.photo_main.url}}
-              alt=""
+              src="{{book.photo_main.url}}"
+              alt="{{book.title}}"
             />
             {% if book.is_latest %}
               <div class="card-img-overlay">
@@ -71,7 +71,7 @@
                   <i class="fa fa-user" aria-hidden="true"></i> Author: {{book.author}}
                 </div>
                 <div class="col-12">
-                  <i class="fa fa-clone" aria-hidden="true"></i> Copy: {{book.copy}}
+                  <i class="fa fa-clone" aria-hidden="true"></i> Copy id.: {{book.copy}}
                 </div>
               </div>
               <div class="row py-2 text-secondary">
@@ -102,8 +102,9 @@
         {% else %}
         <div class="col-md-12">
         <p>No books Available</p>
-        </div>
+        
         {% endif %}
+      </div>
 
       <div class="row">
         <div class="col-md-12">
