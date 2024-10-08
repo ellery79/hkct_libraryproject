@@ -15,7 +15,8 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 20px;
+            
+            
         }
 
         .flexslider .slides img {
@@ -53,7 +54,7 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col-md-12">
-                    <h1 class="display-4">About ABC Library</h1>
+                    <h1 class="display-4">About Hong Kong Library</h1>
                     <p class="lead">
                         These features make the Hong Kong Library an important place for learning, information, and culture.
                     </p>
@@ -118,7 +119,7 @@
             <div class="flexslider" id="central-library-slider">
                 <ul class="slides">
                     <div class="row mb-1 thumbs" id="image-container">
-                        <div class="col-md-100" style="text-align: center; margin: 0 auto;">
+                        <div class="col-md-10" style="text-align: center; margin: 0 auto;">
                             <div class="container">
                                 <div class="col-md-20">
                                     <a href="static/img/homes/library-1.png" data-lightbox="home-images">
@@ -218,7 +219,7 @@
                     <div class="flexslider" id="kowloon-library-slider">
                         <ul class="slides">
                             <div class="row mb-2 thumbs" id="image-container">
-                                <div class="col-md-50" style="text-align: center; margin: 0 auto;">
+                                <div class="col-md-10" style="text-align: center; margin: 0 auto;">
                                     <div class="container">
                                         <div class="col-md-20">
                                             <a href="static/img/homes/library-11.png" data-lightbox="home-images">
@@ -318,8 +319,8 @@
                     <!-- Thumbnails for Tseung Kwan O Public Library -->
                     <div class="flexslider" id="tseung-kwan-o-library-slider">
                         <ul class="slides">
-                            <div class="row mb-5 thumbs" id="image-container">
-                                <div class="col-md-40" style="text-align: center; margin: 0 auto;">
+                            <div class="row mb-1 thumbs" id="image-container">
+                                <div class="col-md-10" style="text-align: center; margin: 0 auto;">
                                     <div class="container">
                                         <div class="col-md-20">
                                             <a href="static/img/homes/library-21.png" data-lightbox="home-images">
@@ -378,7 +379,6 @@
                 </ul>
             </div>
 
-    
 
             <section id="library-rules" class="py-5 bg-light">
                 <div class="container">
@@ -448,33 +448,13 @@
             
                     <p class="text-muted mt-4">* Please refer to the 'Libraries Regulation' for the regulations of using various library services.</p>
                 </div>
-            </section>
-
+            </div>
+        </div>
+      </section>
 </body>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.7.2/jquery.flexslider-min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Initialize Flexslider for each library slider
-        $('#central-library-slider').flexslider({
-            animation: "slide",
-            controlNav: true,
-            directionNav: true
-        });
-
-        $('#kowloon-library-slider').flexslider({
-            animation: "slide",
-            controlNav: true,
-            directionNav: true
-        });
-
-        $('#tseung-kwan-o-library-slider').flexslider({
-            animation: "slide",
-            controlNav: true,
-            directionNav: true
-        });
-    });
-</script>
 
 {% endblock %}
