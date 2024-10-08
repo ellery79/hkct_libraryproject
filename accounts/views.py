@@ -1,22 +1,25 @@
+# Standard Library Imports
+from datetime import date, timedelta
+import json
+import random
+import string
+
+# Third-Party Imports
+from decouple import config
+import stripe
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
+from django.db.models import Q, Sum, F
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
+
+# Local App Imports
 from .models import Rule, CustomUser
 from borrows.models import Borrow
 from reserves.models import Reserve
-from datetime import date, timedelta
 from books.models import Book
-from django.db.models import Q
-from django.db.models import Sum
-from django.core.mail import send_mail
-from decouple import config
-import random
-import string
-from functools import wraps
-from django.http import HttpResponse
-import json
-import stripe
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -98,11 +101,9 @@ def register(request):
 
 
 def update_reserve_status(reserve_period):
-    # Calculate the date 3 days ago from today
-    three_days_ago = date.today() - timedelta(days=reserve_period)
-    # Update all reserves where reserve_date is more than 3 days ago and status is 'active'
+    threshold_date = timezone.now().date() - timezone.timedelta(days=reserve_period)
     Reserve.objects.filter(
-        reserve_date__lt=three_days_ago,
+        reserve_date__lt=threshold_date,
         reserve_status='active',
     ).update(reserve_status='expired')
 
@@ -130,18 +131,16 @@ def update_book_borrow_status():
 
 
 def update_book_reserve_status():
-    non_active_reserves = Reserve.objects.filter(
-        Q(reserve_status='fulfilled') | Q(reserve_status='expired'))
-    for reserve in non_active_reserves:
-        selected_book = reserve.book
-        if selected_book.book_status == 'Reserved':
-            selected_book.book_status = 'Available'
-            selected_book.save()
-    active_reserves = Reserve.objects.filter(reserve_status='active')
-    for reserve in active_reserves:
-        selected_book = reserve.book
-        selected_book.book_status = 'Reserved'
-        selected_book.save()
+    # Update books from 'Reserved' to 'Available'
+    Book.objects.filter(
+        reserve__reserve_status__in=['fulfilled', 'expired'],
+        book_status='Reserved'
+    ).update(book_status='Available')
+
+    # Update books to 'Reserved'
+    Book.objects.filter(
+        reserve__reserve_status='active'
+    ).update(book_status='Reserved')
 
 
 def update_overdue_days():
@@ -153,14 +152,26 @@ def update_overdue_days():
 
 
 def update_book_fine(fine_per_day):
+    # Reset fines for paid borrows
     Borrow.objects.filter(fine_paid=True).update(book_fine=0)
-    unpaid_borrows = Borrow.objects.filter(
-        Q(fine_paid=False) & Q(return_date__isnull=False)
-    )
-    for unpaid_borrow in unpaid_borrows:
-        unpaid_borrow.book_fine = unpaid_borrow.overdue_days * fine_per_day
-        unpaid_borrow.save()
 
+    # Calculate fines for unpaid borrows
+    Borrow.objects.filter(
+        fine_paid=False,
+        return_date__isnull=False
+    ).update(book_fine=F('overdue_days') * fine_per_day)
+
+def get_user_data(user):
+    return {
+        'unreturned_borrows': Borrow.objects.filter(user=user, return_date__isnull=True),
+        'overdue_unpaid_borrows': Borrow.objects.filter(
+            overdue_days__gt=0,
+            return_date__isnull=False,
+            fine_paid=False,
+            user=user
+        ),
+        'reserved_items': Reserve.objects.filter(reserve_status='active', user=user),
+    }
 
 def dashboard(request):
     if not request.user.is_authenticated:
@@ -178,9 +189,10 @@ def dashboard(request):
     unreturned_borrows_per_user = Borrow.objects.filter(
         user=user, return_date__isnull=True)
     overdue_unpaid_borrows = Borrow.objects.filter(
-        Q(overdue_days__gt=0) &
-        Q(return_date__isnull=False) &
-        Q(fine_paid=False) & Q(user=user)
+        overdue_days__gt=0,
+        return_date__isnull=False,
+        fine_paid=False,
+        user=user,
     )
     total_fine = overdue_unpaid_borrows.aggregate(
         Sum('book_fine'))['book_fine__sum'] or 0
@@ -296,9 +308,10 @@ def create_checkout_session(request):
 def payment_success(request):
     user = request.user
     Borrow.objects.filter(
-        Q(overdue_days__gt=0) &
-        Q(return_date__isnull=False) &
-        Q(fine_paid=False) & Q(user=user)
+        overdue_days__gt=0,
+        return_date__isnull=False,
+        fine_paid=False,
+        user=user,
     ).update(fine_paid=True)
     messages.success(
         request, 'Payment success!')
