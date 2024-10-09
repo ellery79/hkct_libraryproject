@@ -7,7 +7,18 @@ This project is a homework assignment for CT290DS003 Python網站框架開發助
 1. Clone the repository
 2. Install dependencies: `pip install -r requirements.txt` and python-decouple package is needed.
 3. Create a database using postgresql
-4. Provide necessary credentials using a `.env` file
+4. Environment Configuration:
+- Create a `.env` file in the root directory.
+- Add the following variables (replace with your actual values):
+```
+EMAIL_PASSWORD =
+MY_EMAIL =
+DB_USER =
+DB_PASSWORD =
+SECRET_KEY = 
+STRIPE_SECRET_KEY = 
+STRIPE_PUBLISHABLE_KEY = 
+```
 5. Run migrations: `python manage.py migrate`
 6. Import the necessary data (`UML and db backup/librarydb1_backup_20241001.backup`) using PGAdmin.
 7. Start the server: `python manage.py runserver`
