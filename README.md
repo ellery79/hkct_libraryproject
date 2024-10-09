@@ -23,6 +23,17 @@ ABC Library Management System is a Django-based web application developed as a g
 - HTML/CSS/JavaScript for Frontend
 - Bootstrap 4.2
 
+## Deployment on Vultr
+
+This project is deployed on Vultr. Here are the key deployment details:
+
+1. Server: Vultr Cloud Compute
+2. OS: Ubuntu 24.04.1 LTS
+3. Web Server: Nginx
+4. WSGI Server: Gunicorn
+5. Database: PostgreSQL (installed on the same server)
+6. Access website: https://library.happycoding.hk
+
 ## Project Structure
 
 The project consists of several Django apps:
@@ -57,9 +68,11 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on starting the proje
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Educational Project License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-- Django documentation and community resources
+- Django framework and its comprehensive documentation, which formed the backbone of this project
 - 衛龍老師 for project guidance
+- Our classmates for their feedback and collaboration
+- Generative AI tools for assistance with coding challenges and problem-solving
