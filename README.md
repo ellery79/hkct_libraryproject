@@ -46,10 +46,10 @@ The project consists of several Django apps:
 
 ## Group Members (in no particular order)
 
-- [Member 1 Name]
-- [Member 2 Name]
-- [Member 3 Name]
-- [Member 4 Name]
+- 鄧岳鳴（學號︰1）
+- 洪餘暉（學號︰6）
+- 陳耀豐（學號︰12）
+- 潘浩銓（學號︰15）
 
 ## Contributing
 
@@ -62,5 +62,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - Django documentation and community resources
-- Stripe API for payment processing integration
 - 衛龍老師 for project guidance

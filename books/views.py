@@ -13,6 +13,7 @@ from django.utils import timezone
 from books.models import status_choices
 from libraries.models import district_choices
 from reserves.models import Reserve
+from accounts.views import update_book_reserve_status
 from .models import Book
 
 # Create your views here.
@@ -57,6 +58,7 @@ def book(request, book_id):
     Returns:
         HttpResponse: Rendered HTML page with book details or a redirect after reservation.
     """
+    update_book_reserve_status()
     selected_book = Book.objects.get(id=book_id)
     books = Book.objects.filter(
         isbn=selected_book.isbn, book_status="Available").distinct('library')

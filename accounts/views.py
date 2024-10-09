@@ -195,10 +195,17 @@ def update_book_borrow_status():
 def update_book_reserve_status():
     """
     Update the reservation status of books.
-
+    - find any books with book status Reserved and not in any Reserved items, change it to available.
     - Changes books from 'Reserved' to 'Available' if their reservations are 'fulfilled' or 'expired'.
     - Marks books as 'Reserved' if there is an active reservation.
     """
+    # Update books from 'Reserved' to 'Available' if they have no reservations
+    Book.objects.filter(
+        book_status='Reserved'
+    ).exclude(
+        reserve__isnull=False
+    ).update(book_status='Available')
+
     # Update books from 'Reserved' to 'Available' if the reservation is fulfilled or expired
     Book.objects.filter(
         reserve__reserve_status__in=['fulfilled', 'expired'],
@@ -244,6 +251,7 @@ def update_book_fine(fine_per_day):
         return_date__isnull=False
     ).update(book_fine=F('overdue_days') * fine_per_day)
 
+
 def dashboard(request):
     """
     Display the user dashboard with borrowing, reservation, and fine information.
@@ -276,7 +284,7 @@ def dashboard(request):
     # Retrieve unreturned borrows for the user
     unreturned_borrows_per_user = Borrow.objects.filter(
         user=user, return_date__isnull=True)
-    
+
     # Retrieve overdue and unpaid book charges for the user
     overdue_unpaid_borrows = Borrow.objects.filter(
         overdue_days__gt=0,
@@ -287,7 +295,7 @@ def dashboard(request):
     # Calculate total fines
     total_fine = overdue_unpaid_borrows.aggregate(
         Sum('book_fine'))['book_fine__sum'] or 0
-    
+
     # Retrieve active reservations for the user
     reserved_items = Reserve.objects.filter(reserve_status='active', user=user)
     context = {'unreturned_borrows': unreturned_borrows_per_user,
