@@ -20,7 +20,7 @@ STRIPE_SECRET_KEY =
 STRIPE_PUBLISHABLE_KEY = 
 ```
 5. Run migrations: `python manage.py migrate`
-6. Import the necessary data (`UML and db backup/librarydb1_backup_20241001.backup`) using PGAdmin.
+6. Import the necessary data (`UML and db backup/librarydb1_backup_20241001.backup` or `/home/poon/Documents/django_lib/UML and db backup/dbbackup_20241009.backup`) using PGAdmin.
 7. Start the server: `python manage.py runserver`
 
 For any questions, please contact 阿銓 at shrill-wiring-foe@duck.com
