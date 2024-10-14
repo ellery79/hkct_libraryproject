@@ -372,6 +372,7 @@ def forgotpass(request):
                 case None:
                     messages.error(
                         request, "Email is invalid. Please enter a correct email.")
+                    return redirect('forgotpass')
                 case selected_user:
                     myEmail = config('MY_EMAIL')
                     domain = request.get_host()
@@ -382,7 +383,8 @@ def forgotpass(request):
                     selected_user.save()
                     messages.success(
                         request, "Email sent. If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder.")
-            return redirect('forgotpass')
+                    return redirect('login')
+            
 
         case _:
             return render(request, 'accounts/forgotpass.html')

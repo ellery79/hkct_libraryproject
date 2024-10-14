@@ -62,9 +62,12 @@ def book(request, book_id):
     selected_book = Book.objects.get(id=book_id)
     books = Book.objects.filter(
         isbn=selected_book.isbn, book_status="Available").distinct('library')
+    available_copies = Book.objects.filter(
+        isbn=selected_book.isbn, book_status="Available").count()
     context = {
         'book': selected_book,
         'books': books,
+        'available_copies': available_copies,
     }
     user = request.user
     if user.is_authenticated:
@@ -73,20 +76,24 @@ def book(request, book_id):
         context.update({'reserved_items': reserved_items})
     if request.method == 'POST':
         reserve_limit = user.rule.reserve_limit
-        reserve_book_id = request.POST.get('reservebookid')
-        reserve_book = Book.objects.get(id=reserve_book_id)
-        user_reserve_number = len(reserved_items)
-        if user_reserve_number < reserve_limit:
-            new_reserve = Reserve(
-                reserve_date=timezone.datetime.now(), user=request.user, book=reserve_book)
-            reserve_book.book_status = "Reserved"
-            reserve_book.save()
-            new_reserve.save()
-            messages.success(
-                request, 'You have reserved this book successfully')
-        else:
-            messages.error(
-                request, 'You have reached your reserve limit. Cannot reserve.')
+        reserve_book_id = request.POST.get('reservebookid', 'not_selected')
+        match reserve_book_id:
+            case 'not_selected':
+                messages.error(request, 'Please select your option before clicking the button.')
+            case _:
+                reserve_book = Book.objects.get(id=reserve_book_id)
+                user_reserve_number = reserved_items.count()
+                if user_reserve_number < reserve_limit:
+                    new_reserve = Reserve(
+                       reserve_date=timezone.datetime.now(), user=request.user, book=reserve_book)
+                    reserve_book.book_status = "Reserved"
+                    reserve_book.save()
+                    new_reserve.save()
+                    messages.success(
+                        request, 'You have reserved this book successfully')
+                else:
+                    messages.error(
+                    request, 'You have reached your reserve limit. Cannot reserve.')
         return redirect('book', book_id)
 
     return render(request, 'books/book.html', context)

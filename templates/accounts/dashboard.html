@@ -120,6 +120,7 @@
             </tbody>
           </table>
           <p>Total fine is ${{total_fine | floatformat }}</p>
+          {% if total_fine >= 4 %}
           <p>
             <button id="checkout-button" class="btn btn-success mb-2">
               <i class="fas fa-credit-card"></i> Pay
@@ -127,6 +128,12 @@
             <span>Click here to pay your overdue charges</span>
           </p>
           <p><strong>Supported payment method:</strong> Credit card.</p>
+          {% else %}
+          <p class="text-warning">
+            <i class="fas fa-exclamation-triangle"></i> The minimum payment amount is HK$4. Your current fine is below this threshold.
+          </p>
+          {% endif %}
+          
           {% else %}
           <h5>You don't have any outstanding charges.</h5>
           {% endif %}
