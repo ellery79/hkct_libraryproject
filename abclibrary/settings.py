@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 
 # Application definition
@@ -86,7 +86,7 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'librarydb1',
+        'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': 'localhost',
@@ -158,4 +158,5 @@ EMAIL_USE_TLS = True
 # Tell Django to use accounts/CustomUser to do user authentication
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-AUTH_PASSWORD_VALIDATORS = []
+if DEBUG:
+    AUTH_PASSWORD_VALIDATORS = []

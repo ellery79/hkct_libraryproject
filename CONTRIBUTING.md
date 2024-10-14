@@ -11,10 +11,13 @@ This project is a homework assignment for CT290DS003 Python網站框架開發助
 - Create a `.env` file in the root directory.
 - Add the following variables (replace with your actual values):
 ```
-EMAIL_PASSWORD =
-MY_EMAIL =
-DB_USER =
-DB_PASSWORD =
+DEBUG = 
+ALLOWED_HOSTS = 
+EMAIL_PASSWORD = 
+MY_EMAIL = 
+DB_NAME = 
+DB_USER = 
+DB_PASSWORD = 
 SECRET_KEY = 
 STRIPE_SECRET_KEY = 
 STRIPE_PUBLISHABLE_KEY = 
